@@ -1,0 +1,17 @@
+export const orderStatus = {
+  CANCEL: 'ORDER_CANCEL',
+  DELIVERED: 'ORDER_DELIVERED',
+  DELIVERING: 'ORDER_DELIVERING',
+  ORDERED: 'ORDER_ORDERED',
+  VERIFIED: 'ORDER_VERIFIED'
+};
+
+export const dayOfWeek = [
+  'SUNDAY',
+  'MONDAY',
+  'TUESDAY',
+  'WEDNESDAY',
+  'THURSDAY',
+  'FRIDAY',
+  'SATURDAY'
+];
