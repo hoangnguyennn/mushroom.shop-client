@@ -24,6 +24,7 @@ const Banner: FC<BannerProps> = ({ background }) => {
         objectFit="cover"
         quality={100}
         className="background"
+        priority={true}
       />
       <Container>
         <div className="intro">

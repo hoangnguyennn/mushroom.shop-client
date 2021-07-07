@@ -16,6 +16,7 @@ import { getDesktop } from '@redux/reducers/app';
 import { imageUrlToSpecificSize } from '@utils/converter';
 import { IProductWithLink } from '@interfaces/index';
 import { toCurrency } from '@utils/formatter';
+import breakpoint from '@configs/breakpoint';
 
 type ProductItemProps = IProductWithLink & {
   addToCart: () => any;
@@ -43,9 +44,11 @@ const ProductItem: FC<ProductItemProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const [imageSize, setImageSize] = useState(0);
   const imageWrapRef = useRef<HTMLDivElement | null>(null);
   const isDesktop = useSelector(getDesktop());
+  const [imageSize, setImageSize] = useState(
+    isDesktop ? breakpoint.desktop.productItemImage : 0
+  );
 
   const imageUrl = useCallback(
     (image: string) => imageUrlToSpecificSize(image, imageSize, imageSize),
@@ -74,7 +77,7 @@ const ProductItem: FC<ProductItemProps> = ({
             style={{
               width: `${imageSize}px`,
               height: `${imageSize}px`,
-              paddingTop: imageUrl(images[0] || '') ? '' : '100%'
+              ...(imageUrl(images[0] || '') ? {} : { paddingTop: '100%' })
             }}
           />
         </div>

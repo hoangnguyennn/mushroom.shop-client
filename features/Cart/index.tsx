@@ -30,6 +30,7 @@ import { getUserInfo } from '@redux/reducers/auth';
 import { ICartForm, IOrder } from '@interfaces/index';
 import { PATH_NAME } from '@configs/pathName';
 import { imageUrlToSpecificSize } from '@utils/converter';
+import breakpoint from '@configs/breakpoint';
 
 const Cart = () => {
   const { t } = useTranslation();
@@ -43,7 +44,7 @@ const Cart = () => {
   const router = useRouter();
 
   const [isValid, setIsValid] = useState(false);
-  const [imageSize, setImageSize] = useState(0);
+  const [imageSize, setImageSize] = useState(breakpoint.desktop.cartItem);
   const imageWrapRef = useRef<HTMLDivElement | null>(null);
 
   const imageUrl = useCallback(
@@ -64,9 +65,7 @@ const Cart = () => {
     deliveryFullName: Yup.string().required(t('This field is required')),
     deliveryAddress: Yup.string().required(t('This field is required')),
     deliveryPhone: Yup.string().required(t('This field is required')),
-    deliveryEmail: Yup.string()
-      .email()
-      .required(t('This field is required')),
+    deliveryEmail: Yup.string().email().required(t('This field is required')),
     note: Yup.string()
   });
 
@@ -143,9 +142,11 @@ const Cart = () => {
                     src={imageUrl(item.images[0] || '')}
                     alt={item.name}
                     loading="lazy"
-                    style={{
-                      paddingTop: imageUrl(item.images[0] || '') ? '' : '100%'
-                    }}
+                    style={
+                      imageUrl(item.images[0] || '')
+                        ? {}
+                        : { paddingTop: '100%' }
+                    }
                   />
                 </div>
                 <div className="info">

@@ -14,6 +14,7 @@ import { imageUrlToSpecificSize } from '@utils/converter';
 import { isoDateToNativeDate, toCurrency } from '@utils/formatter';
 import { orderStatus } from '@constants/index';
 import { PATH_NAME } from '@configs/pathName';
+import breakpoint from '@configs/breakpoint';
 
 const MyOrderDetail = () => {
   const { t } = useTranslation();
@@ -26,7 +27,7 @@ const MyOrderDetail = () => {
   const order = useSelector(getOrderById(id as string));
   const items = order?.items;
 
-  const [imageSize, setImageSize] = useState(0);
+  const [imageSize, setImageSize] = useState(breakpoint.desktop.cartItem);
   const imageRef = useRef<HTMLImageElement | null>(null);
 
   const imageUrl = useCallback(
@@ -96,9 +97,11 @@ const MyOrderDetail = () => {
                         src={imageUrl(item.product.image)}
                         alt={item.product.name}
                         loading="lazy"
-                        style={{
-                          paddingTop: imageUrl(item.product.image) ? '' : '100%'
-                        }}
+                        style={
+                          imageUrl(item.product.image || '')
+                            ? {}
+                            : { paddingTop: '100%' }
+                        }
                         ref={imageRef}
                       />
                       <div className="product-info">

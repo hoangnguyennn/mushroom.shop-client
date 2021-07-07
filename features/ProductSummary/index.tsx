@@ -21,6 +21,7 @@ import { imageUrlToSpecificSize } from '@utils/converter';
 import { IProduct } from '@interfaces/index';
 import { ProductStatus } from '@interfaces/enums';
 import { toCurrency } from '@utils/formatter';
+import breakpoint from '@configs/breakpoint';
 
 type ProductSummaryProps = {
   product: IProduct;
@@ -36,7 +37,9 @@ const ProductSummary: FC<ProductSummaryProps> = ({ product }) => {
 
   const imageZoomRef = useRef<HTMLImageElement | null>(null);
   const imageWrapRef = useRef<HTMLDivElement | null>(null);
-  const [imageSize, setImageSize] = useState(0);
+  const [imageSize, setImageSize] = useState(
+    isDesktop ? breakpoint.desktop.productSummary : 0
+  );
 
   const imageUrl = useCallback(
     (image: string) => imageUrlToSpecificSize(image, imageSize, imageSize),
@@ -99,7 +102,9 @@ const ProductSummary: FC<ProductSummaryProps> = ({ product }) => {
             style={{
               width: `${imageSize}px`,
               height: `${imageSize}px`,
-              paddingTop: imageUrl(product.images[0] || '') ? '' : '100%'
+              ...(imageUrl(product.images[0] || '')
+                ? {}
+                : { paddingTop: '100%' })
             }}
           />
           {isDesktop && (
