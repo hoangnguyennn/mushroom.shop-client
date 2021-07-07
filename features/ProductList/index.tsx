@@ -1,13 +1,13 @@
 import { FC } from 'react';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-
-import useMatchMedia from '@hooks/useMatchMedia';
 
 import Root from './ProductList';
 
 import ProductFilter from './components/Filter';
 import ProductListComponent from '@components/Product/List';
 
+import { getDesktop } from '@redux/reducers/app';
 import { IProduct } from '@interfaces/index';
 
 type ProductListProps = {
@@ -19,7 +19,7 @@ const ProductList: FC<ProductListProps> = ({
   products,
   title = 'Products'
 }) => {
-  const isDesktop = useMatchMedia('(min-width: 992px)');
+  const isDesktop = useSelector(getDesktop());
   const { t } = useTranslation();
 
   return (

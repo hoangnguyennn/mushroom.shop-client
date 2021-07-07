@@ -5,12 +5,15 @@ import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 
 import { getToken } from '@redux/reducers/auth';
+import { initialStore } from '@redux/store';
 import { isVariant } from '@helpers/checkTypes';
 import { orderNotificationPage } from '@configs/breadcrumb';
 import { PATH_NAME } from '@configs/pathName';
+import { setDesktopAction } from '@redux/reducers/app';
 import { Variant } from '@interfaces/types';
 import Alert from '@components/core/Alert';
 import i18n from '@locales/index';
+import isDesktop from '@helpers/isDesktop';
 import MainLayout from '@layouts/MainLayout';
 import PageContent from '@components/PageContent';
 
@@ -40,9 +43,18 @@ const OrderSuccessPage = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async context => {
+  const reduxStore = initialStore();
+  const { dispatch } = reduxStore;
+
+  const secChUaMobile = context.req.headers['sec-ch-ua-mobile'] as string;
+  dispatch(setDesktopAction(isDesktop(secChUaMobile)));
+
   return {
-    props: { title: i18n.t('Đặt hàng thành công') }
+    props: {
+      initialReduxState: reduxStore.getState(),
+      title: i18n.t('Đặt hàng thành công')
+    }
   };
 };
 

@@ -7,7 +7,9 @@ import { getProducts, getProductsAction } from '@redux/reducers/product';
 import { getProductUnitsAction } from '@redux/reducers/productUnit';
 import { initialStore } from '@redux/store';
 import { productsPage } from '@configs/breadcrumb';
+import { setDesktopAction } from '@redux/reducers/app';
 import i18n from '@locales/index';
+import isDesktop from '@helpers/isDesktop';
 import MainLayout from '@layouts/MainLayout';
 import PageContent from '@components/PageContent';
 import ProductList from '@features/ProductList';
@@ -28,6 +30,9 @@ const ProductDetailPage = () => {
 export const getServerSideProps: GetServerSideProps = async context => {
   const reduxStore = initialStore();
   const { dispatch } = reduxStore;
+
+  const secChUaMobile = context.req.headers['sec-ch-ua-mobile'] as string;
+  dispatch(setDesktopAction(isDesktop(secChUaMobile)));
 
   const query = context.query;
   try {

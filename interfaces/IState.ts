@@ -12,6 +12,7 @@ import {
 export interface IAppState {
   limitOfToast: number;
   isLoading: boolean;
+  isDesktop: boolean;
 }
 
 export interface IAuthState {

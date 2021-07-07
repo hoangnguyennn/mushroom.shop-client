@@ -14,6 +14,8 @@ import {
 import { getProductUnitsAction } from '@redux/reducers/productUnit';
 import { initialStore } from '@redux/store';
 import { productsByCategoryPage } from '@configs/breadcrumb';
+import { setDesktopAction } from '@redux/reducers/app';
+import isDesktop from '@helpers/isDesktop';
 import MainLayout from '@layouts/MainLayout';
 import PageContent from '@components/PageContent';
 import ProductList from '@features/ProductList';
@@ -44,6 +46,9 @@ const CategoryPage = () => {
 export const getServerSideProps: GetServerSideProps = async context => {
   const reduxStore = initialStore();
   const { dispatch } = reduxStore;
+
+  const secChUaMobile = context.req.headers['sec-ch-ua-mobile'] as string;
+  dispatch(setDesktopAction(isDesktop(secChUaMobile)));
 
   const category = context.query.category as string;
   const query = context.query;

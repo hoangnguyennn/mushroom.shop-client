@@ -7,10 +7,8 @@ import {
   useState
 } from 'react';
 import { toast } from 'react-toastify';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-
-import useMatchMedia from '@hooks/useMatchMedia';
 
 import Root from './ProductSummary';
 
@@ -18,6 +16,7 @@ import Button from '@components/core/Button';
 import Input from '@components/core/Input';
 
 import { addToCartAction } from '@redux/reducers/cart';
+import { getDesktop } from '@redux/reducers/app';
 import { imageUrlToSpecificSize } from '@utils/converter';
 import { IProduct } from '@interfaces/index';
 import { ProductStatus } from '@interfaces/enums';
@@ -31,7 +30,7 @@ const ProductSummary: FC<ProductSummaryProps> = ({ product }) => {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
-  const isDesktop = useMatchMedia('(min-width: 992px)');
+  const isDesktop = useSelector(getDesktop());
 
   const [qty, setQty] = useState('1');
 

@@ -4,8 +4,10 @@ import { useTranslation } from 'react-i18next';
 import { cartPage } from '@configs/breadcrumb';
 import { getPaymentMethodsAction } from '@redux/reducers/paymentMethod';
 import { initialStore } from '@redux/store';
+import { setDesktopAction } from '@redux/reducers/app';
 import Cart from '@features/Cart';
 import i18n from '@locales/index';
+import isDesktop from '@helpers/isDesktop';
 import MainLayout from '@layouts/MainLayout';
 import PageContent from '@components/PageContent';
 
@@ -21,9 +23,12 @@ const CartPage = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async context => {
   const reduxStore = initialStore();
   const { dispatch } = reduxStore;
+
+  const secChUaMobile = context.req.headers['sec-ch-ua-mobile'] as string;
+  dispatch(setDesktopAction(isDesktop(secChUaMobile)));
   await dispatch(getPaymentMethodsAction());
 
   return {
