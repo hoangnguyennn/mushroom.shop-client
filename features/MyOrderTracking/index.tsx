@@ -8,8 +8,8 @@ import Root from './MyOrderTracking';
 
 import Loading from '@components/Loading';
 
-import { getLoading } from '@redux/reducers/app';
-import { getOrderTracking, getTrackingAction } from '@redux/reducers/order';
+import { getIsLoading } from '@redux/reducers/app';
+import { getOrderTracking, fetchTracking } from '@redux/reducers/order';
 import { isoDateToNativeDate } from '@utils/formatter';
 import { orderStatus } from '@constants/index';
 import { PATH_NAME } from '@configs/pathName';
@@ -19,11 +19,11 @@ const MyOrderTracking = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const orderId = router.query.id;
-  const isLoading = useSelector(getLoading());
+  const isLoading = useSelector(getIsLoading());
   const tracking = useSelector(getOrderTracking());
 
   useEffect(() => {
-    dispatch(getTrackingAction(orderId as string));
+    dispatch(fetchTracking(orderId as string));
   }, [orderId]);
 
   if (isLoading) {

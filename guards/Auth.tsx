@@ -1,7 +1,7 @@
 import { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getToken, loginByTokenAction } from '@redux/reducers/auth';
+import { getToken, loginByToken } from '@redux/reducers/auth';
 
 const Auth: FC = ({ children }) => {
   const dispatch = useDispatch();
@@ -9,7 +9,7 @@ const Auth: FC = ({ children }) => {
 
   useEffect(() => {
     if (!token) {
-      dispatch(loginByTokenAction());
+      dispatch(loginByToken());
     }
   }, [token]);
 

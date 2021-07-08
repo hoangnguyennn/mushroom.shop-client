@@ -2,9 +2,9 @@ import { GetServerSideProps } from 'next';
 import { useTranslation } from 'react-i18next';
 
 import { cartPage } from '@configs/breadcrumb';
-import { getPaymentMethodsAction } from '@redux/reducers/paymentMethod';
+import { fetchPaymentMethods } from '@redux/reducers/paymentMethod';
 import { initialStore } from '@redux/store';
-import { setDesktopAction } from '@redux/reducers/app';
+import { setIsDesktop } from '@redux/reducers/app';
 import Cart from '@features/Cart';
 import i18n from '@locales/index';
 import isDesktop from '@helpers/isDesktop';
@@ -28,8 +28,8 @@ export const getServerSideProps: GetServerSideProps = async context => {
   const { dispatch } = reduxStore;
 
   const secChUaMobile = context.req.headers['sec-ch-ua-mobile'] as string;
-  dispatch(setDesktopAction(isDesktop(secChUaMobile)));
-  await dispatch(getPaymentMethodsAction());
+  dispatch(setIsDesktop(isDesktop(secChUaMobile)));
+  await dispatch(fetchPaymentMethods());
 
   return {
     props: { title: i18n.t('Cart'), initialReduxState: reduxStore.getState() }

@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 
-import { logoutAction } from '@redux/reducers/auth';
+import { logout } from '@redux/reducers/auth';
 import { PATH_NAME } from '@configs/pathName';
 import Root from './User';
 
@@ -18,7 +18,7 @@ const User: FC<UserProps> = ({ fullName }) => {
   const router = useRouter();
 
   const handleLogout = async () => {
-    await dispatch(logoutAction());
+    await dispatch(logout());
     router.replace(PATH_NAME.HOME);
   };
 

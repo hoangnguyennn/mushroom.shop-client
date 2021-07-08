@@ -22,11 +22,11 @@ import {
   getCartItems,
   getCartSubtotal,
   getDeliveryFee,
-  orderAction,
-  removeFromCartAction,
-  updateQtyAction
+  order,
+  removeFromCart,
+  updateQty
 } from '@redux/reducers/cart';
-import { getUserInfo } from '@redux/reducers/auth';
+import { getUser } from '@redux/reducers/auth';
 import { ICartForm, IOrder } from '@interfaces/index';
 import { PATH_NAME } from '@configs/pathName';
 import { imageUrlToSpecificSize } from '@utils/converter';
@@ -38,7 +38,7 @@ const Cart = () => {
   const cartItems = useSelector(getCartItems());
   const cartSubtotal = useSelector(getCartSubtotal());
   const paymentMethods = useSelector(getPaymentMethods());
-  const userInfo = useSelector(getUserInfo());
+  const userInfo = useSelector(getUser());
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -70,7 +70,7 @@ const Cart = () => {
   });
 
   const handleFormSubmit = async (values: ICartForm, { setSubmitting }) => {
-    const order: IOrder = {
+    const orderRequest: IOrder = {
       ...values,
       userId: userInfo.id,
       items: cartItems.map(cartItem => ({
@@ -80,7 +80,7 @@ const Cart = () => {
     };
 
     try {
-      await dispatch(orderAction(order));
+      await dispatch(order(orderRequest));
       router.replace(`${PATH_NAME.ORDERS}?status=success`);
       toast.success('success');
     } catch (err) {
@@ -162,7 +162,7 @@ const Cart = () => {
                       onClick={() => {
                         if (item.qty > 0) {
                           dispatch(
-                            updateQtyAction({ id: item.id, qty: item.qty - 1 })
+                            updateQty({ id: item.id, qty: item.qty - 1 })
                           );
                         }
                       }}
@@ -182,7 +182,7 @@ const Cart = () => {
                       onClick={() => {
                         if (item.qty < 99) {
                           dispatch(
-                            updateQtyAction({ id: item.id, qty: item.qty + 1 })
+                            updateQty({ id: item.id, qty: item.qty + 1 })
                           );
                         }
                       }}
@@ -194,7 +194,7 @@ const Cart = () => {
                 <div className="actions">
                   <span
                     className="action"
-                    onClick={() => dispatch(removeFromCartAction(item))}
+                    onClick={() => dispatch(removeFromCart(item))}
                   >
                     {t('Delete')}
                   </span>

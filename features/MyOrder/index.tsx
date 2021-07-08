@@ -6,8 +6,8 @@ import Link from 'next/link';
 import Root from './MyOrder';
 import Loading from '@components/Loading';
 
-import { getLoading } from '@redux/reducers/app';
-import { getOrdersAction, getOrders } from '@redux/reducers/order';
+import { getIsLoading } from '@redux/reducers/app';
+import { fetchOrders, getOrders } from '@redux/reducers/order';
 import { isoDateToNativeDate, toCurrency } from '@utils/formatter';
 import { orderStatus } from '@constants/index';
 import { PATH_NAME } from '@configs/pathName';
@@ -17,10 +17,10 @@ const MyOrder = () => {
   const { t } = useTranslation();
 
   const orders = useSelector(getOrders());
-  const isLoading = useSelector(getLoading());
+  const isLoading = useSelector(getIsLoading());
 
   useEffect(() => {
-    dispatch(getOrdersAction());
+    dispatch(fetchOrders());
   }, []);
 
   if (isLoading) {

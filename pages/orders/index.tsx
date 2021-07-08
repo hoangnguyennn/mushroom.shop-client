@@ -9,7 +9,7 @@ import { initialStore } from '@redux/store';
 import { isVariant } from '@helpers/checkTypes';
 import { orderNotificationPage } from '@configs/breadcrumb';
 import { PATH_NAME } from '@configs/pathName';
-import { setDesktopAction } from '@redux/reducers/app';
+import { setIsDesktop } from '@redux/reducers/app';
 import { Variant } from '@interfaces/types';
 import Alert from '@components/core/Alert';
 import i18n from '@locales/index';
@@ -48,7 +48,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
   const { dispatch } = reduxStore;
 
   const secChUaMobile = context.req.headers['sec-ch-ua-mobile'] as string;
-  dispatch(setDesktopAction(isDesktop(secChUaMobile)));
+  dispatch(setIsDesktop(isDesktop(secChUaMobile)));
 
   return {
     props: {

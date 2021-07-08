@@ -3,18 +3,15 @@ import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
+import { fetchCategories, getCategoryBySlug } from '@redux/reducers/category';
 import {
-  getCategoriesAction,
-  getCategoryBySlug
-} from '@redux/reducers/category';
-import {
-  getProductsByCategorySlugAction,
+  fetchProductsByCategorySlug,
   getProductsByCategorySlug
 } from '@redux/reducers/product';
-import { getProductUnitsAction } from '@redux/reducers/productUnit';
+import { fetchProductUnits } from '@redux/reducers/productUnit';
 import { initialStore } from '@redux/store';
 import { productsByCategoryPage } from '@configs/breadcrumb';
-import { setDesktopAction } from '@redux/reducers/app';
+import { setIsDesktop } from '@redux/reducers/app';
 import isDesktop from '@helpers/isDesktop';
 import MainLayout from '@layouts/MainLayout';
 import PageContent from '@components/PageContent';
@@ -48,14 +45,14 @@ export const getServerSideProps: GetServerSideProps = async context => {
   const { dispatch } = reduxStore;
 
   const secChUaMobile = context.req.headers['sec-ch-ua-mobile'] as string;
-  dispatch(setDesktopAction(isDesktop(secChUaMobile)));
+  dispatch(setIsDesktop(isDesktop(secChUaMobile)));
 
   const category = context.query.category as string;
   const query = context.query;
   try {
-    await dispatch(getProductsByCategorySlugAction(category, query));
-    await dispatch(getCategoriesAction(query));
-    await dispatch(getProductUnitsAction({ slug: category, ...query }));
+    await dispatch(fetchProductsByCategorySlug(category, query));
+    await dispatch(fetchCategories(query));
+    await dispatch(fetchProductUnits({ slug: category, ...query }));
 
     const categoryInfo = getCategoryBySlug(category)(reduxStore.getState());
 

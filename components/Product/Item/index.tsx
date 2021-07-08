@@ -12,7 +12,7 @@ import Link from 'next/link';
 
 import ProductItemStyled from './ProductItem';
 
-import { getDesktop } from '@redux/reducers/app';
+import { getIsDesktop } from '@redux/reducers/app';
 import { imageUrlToSpecificSize } from '@utils/converter';
 import { IProductWithLink } from '@interfaces/index';
 import { toCurrency } from '@utils/formatter';
@@ -45,7 +45,7 @@ const ProductItem: FC<ProductItemProps> = ({
   const { t } = useTranslation();
 
   const imageWrapRef = useRef<HTMLDivElement | null>(null);
-  const isDesktop = useSelector(getDesktop());
+  const isDesktop = useSelector(getIsDesktop());
   const [imageSize, setImageSize] = useState(
     isDesktop ? breakpoint.desktop.productItemImage : 0
   );

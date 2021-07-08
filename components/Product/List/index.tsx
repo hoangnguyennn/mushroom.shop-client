@@ -7,7 +7,7 @@ import Link from 'next/link';
 import ProductItem from '../Item';
 import ProductListStyled from './ProductList';
 
-import { addToCartAction } from '@redux/reducers/cart';
+import { addToCart } from '@redux/reducers/cart';
 import { IProduct } from '@interfaces/index';
 import { PATH_NAME } from '@configs/pathName';
 import Button from '@components/core/Button';
@@ -42,7 +42,7 @@ const ProductList: FC<ProductListProps> = ({
               key={product.id}
               link={`${PATH_NAME.PRODUCTS}/${product.id}`}
               addToCart={() => {
-                dispatch(addToCartAction({ ...product, qty: 1 }));
+                dispatch(addToCart({ ...product, qty: 1 }));
                 toast.info('add to cart');
               }}
               {...product}

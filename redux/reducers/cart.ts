@@ -3,7 +3,7 @@ import { createSelector, createSlice, Dispatch } from '@reduxjs/toolkit';
 import { ICartState, IRootState } from '@interfaces/IState';
 import { IOrder } from '@interfaces/index';
 import { isProductInCart } from '@helpers/checkTypes';
-import { order } from '@apis/order.api';
+import { orderApi } from '@apis/common';
 
 export const initialState: ICartState = {
   cartItems: []
@@ -13,7 +13,7 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addToCartAction(state, action) {
+    addToCart(state, action) {
       const indexInCart = state.cartItems.findIndex(
         cartItem => action.payload.id === cartItem.id
       );
@@ -33,7 +33,7 @@ const cartSlice = createSlice({
 
       localStorage.setItem('cart', JSON.stringify(state.cartItems));
     },
-    removeFromCartAction(state, action) {
+    removeFromCart(state, action) {
       const indexInCart = state.cartItems.findIndex(
         cartItem => action.payload.id === cartItem.id
       );
@@ -47,7 +47,7 @@ const cartSlice = createSlice({
         localStorage.setItem('cart', JSON.stringify(state.cartItems));
       }
     },
-    updateCartFromLocalStorageAction(state) {
+    updateCartFromLocalStorage(state) {
       let cartItems = [];
       if (typeof window !== 'undefined') {
         if (localStorage.getItem('cart')) {
@@ -59,7 +59,7 @@ const cartSlice = createSlice({
       }
       state.cartItems = cartItems;
     },
-    updateQtyAction(state, action) {
+    updateQty(state, action) {
       const indexInCart = state.cartItems.findIndex(
         cartItem => action.payload.id === cartItem.id
       );
@@ -79,7 +79,7 @@ const cartSlice = createSlice({
 
       localStorage.setItem('cart', JSON.stringify(state.cartItems));
     },
-    clearCartAction(state) {
+    clearCart(state) {
       state.cartItems = [];
       localStorage.setItem('cart', JSON.stringify(state.cartItems));
     }
@@ -87,36 +87,38 @@ const cartSlice = createSlice({
 });
 
 export const {
-  addToCartAction,
-  clearCartAction,
-  removeFromCartAction,
-  updateCartFromLocalStorageAction,
-  updateQtyAction
+  addToCart,
+  clearCart,
+  removeFromCart,
+  updateCartFromLocalStorage,
+  updateQty
 } = cartSlice.actions;
 
-export const orderAction = (orderRequest: IOrder) => async (
-  dispatch: Dispatch
-) => {
-  return order(orderRequest).then(() => {
-    setTimeout(() => {
-      dispatch(clearCartAction());
-    }, 1000);
+export const order = (orderRequest: IOrder) => async (dispatch: Dispatch) => {
+  return orderApi(orderRequest).then(() => {
+    setTimeout(() => dispatch(clearCart()), 1000);
   });
 };
 
 const cartState = (state: IRootState) => state.cart;
-const selector = function<T>(combiner: { (state: ICartState): T }) {
+const selector = function <T>(combiner: { (state: ICartState): T }) {
   return createSelector(cartState, combiner);
 };
 
 export const getCartItems = () => selector(state => state.cartItems);
 export const getCartLength = () =>
-  selector(state => state.cartItems.reduce((res, item) => res + item.qty, 0));
+  selector(state => {
+    return state.cartItems.reduce((result, item) => {
+      return result + item.qty;
+    }, 0);
+  });
 
 export const getCartSubtotal = () =>
-  selector(state =>
-    state.cartItems.reduce((res, item) => res + item.price * item.qty, 0)
-  );
+  selector(state => {
+    return state.cartItems.reduce((result, item) => {
+      return result + item.price * item.qty;
+    }, 0);
+  });
 
 export const getDeliveryFee = 0;
 

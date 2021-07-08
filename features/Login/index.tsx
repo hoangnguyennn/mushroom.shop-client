@@ -14,7 +14,7 @@ import FormGroup from '@components/core/FormGroup';
 import Input from '@components/core/Input';
 import Invalid from '@components/core/Invalid';
 
-import { getToken, loginAction } from '@redux/reducers/auth';
+import { getToken, login } from '@redux/reducers/auth';
 import { ILogin } from '@interfaces/index';
 import { PATH_NAME } from '@configs/pathName';
 
@@ -36,7 +36,7 @@ const Login = () => {
 
   const handleSubmit = async (values: ILogin, { setSubmitting }) => {
     try {
-      await dispatch(loginAction(values));
+      await dispatch(login(values));
       setSubmitting(false);
       toast.success('success');
     } catch (err) {

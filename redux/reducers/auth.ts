@@ -2,8 +2,12 @@ import { createSlice, createSelector, Dispatch } from '@reduxjs/toolkit';
 
 import { IAuthState, IRootState } from '@interfaces/IState';
 import { ILogin, IUserCreate, IUserUpdate } from '@interfaces/index';
-import { login, loginByToken, register } from '@apis/auth.api';
-import { updateUserInfo } from '@apis/user.api';
+import {
+  registerApi,
+  loginApi,
+  loginByTokenApi,
+  updateUserInfoApi
+} from '@apis/common';
 
 export const initialState: IAuthState = {
   token: '',
@@ -21,10 +25,10 @@ const AuthSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setTokenAction(state, action) {
+    setToken(state, action) {
       state.token = action.payload;
     },
-    setUserAction(state, action) {
+    setUser(state, action) {
       state.user = {
         id: action.payload.id,
         email: action.payload.email,
@@ -34,7 +38,7 @@ const AuthSlice = createSlice({
         userType: action.payload.userType
       };
     },
-    clearUserAction(state) {
+    clearUser(state) {
       state.token = '';
       state.user = {
         id: '',
@@ -48,31 +52,31 @@ const AuthSlice = createSlice({
   }
 });
 
-const { setTokenAction, setUserAction, clearUserAction } = AuthSlice.actions;
+const { setToken, setUser, clearUser } = AuthSlice.actions;
 
-const registerAction = (user: IUserCreate) => async () => {
-  return register(user);
+const register = (user: IUserCreate) => async () => {
+  return registerApi(user);
 };
 
-const loginAction = (userLogin: ILogin) => async (dispatch: Dispatch) => {
-  return login(userLogin).then(response => {
-    dispatch(setTokenAction(response.token));
-    dispatch(setUserAction(response.user));
+const login = (userLogin: ILogin) => async (dispatch: Dispatch) => {
+  return loginApi(userLogin).then(response => {
+    dispatch(setToken(response.token));
+    dispatch(setUser(response.user));
     window.localStorage.setItem('access-token', response.token);
   });
 };
 
-const loginByTokenAction = () => async (dispatch: Dispatch) => {
+const loginByToken = () => async (dispatch: Dispatch) => {
   const token = localStorage.getItem('access-token');
   if (!token) {
     localStorage.removeItem('access-token');
     return;
   }
 
-  return loginByToken(token)
+  return loginByTokenApi()
     .then(user => {
-      dispatch(setTokenAction(token));
-      dispatch(setUserAction(user));
+      dispatch(setToken(token));
+      dispatch(setUser(user));
     })
     .catch(err => {
       localStorage.removeItem('access-token');
@@ -80,38 +84,32 @@ const loginByTokenAction = () => async (dispatch: Dispatch) => {
     });
 };
 
-const logoutAction = () => () => localStorage.removeItem('access-token');
+const logout = () => () => localStorage.removeItem('access-token');
 
 const updateUserInfoAction = (userId: string, userInfo: IUserUpdate) => {
   return async (dispatch: Dispatch) => {
     const token = localStorage.getItem('access-token');
     if (!token) {
       localStorage.removeItem('access-token');
-      dispatch(clearUserAction());
+      dispatch(clearUser());
       throw new Error('token not found');
     }
 
-    return updateUserInfo(userId, userInfo, token).then(userUpdated => {
-      dispatch(setUserAction(userUpdated));
+    return updateUserInfoApi(userId, userInfo).then(userUpdated => {
+      dispatch(setUser(userUpdated));
     });
   };
 };
 
-export {
-  loginAction,
-  loginByTokenAction,
-  logoutAction,
-  registerAction,
-  updateUserInfoAction
-};
+export { login, loginByToken, logout, register, updateUserInfoAction };
 
 const authState = (state: IRootState) => state.auth;
-const selector = function<T>(combiner: { (state: IAuthState): T }) {
+const selector = function <T>(combiner: { (state: IAuthState): T }) {
   return createSelector(authState, combiner);
 };
 
 export const getFullName = () => selector(state => state.user.fullName);
 export const getToken = () => selector(state => state.token);
-export const getUserInfo = () => selector(state => state.user);
+export const getUser = () => selector(state => state.user);
 
 export default AuthSlice.reducer;

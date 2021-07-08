@@ -15,8 +15,8 @@ import Root from './ProductSummary';
 import Button from '@components/core/Button';
 import Input from '@components/core/Input';
 
-import { addToCartAction } from '@redux/reducers/cart';
-import { getDesktop } from '@redux/reducers/app';
+import { addToCart } from '@redux/reducers/cart';
+import { getIsDesktop } from '@redux/reducers/app';
 import { imageUrlToSpecificSize } from '@utils/converter';
 import { IProduct } from '@interfaces/index';
 import { ProductStatus } from '@interfaces/enums';
@@ -31,7 +31,7 @@ const ProductSummary: FC<ProductSummaryProps> = ({ product }) => {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
-  const isDesktop = useSelector(getDesktop());
+  const isDesktop = useSelector(getIsDesktop());
 
   const [qty, setQty] = useState('1');
 
@@ -48,7 +48,7 @@ const ProductSummary: FC<ProductSummaryProps> = ({ product }) => {
 
   const handleAddToCart = () => {
     if (Number(qty) > 0) {
-      dispatch(addToCartAction({ ...product, qty: Number(qty) }));
+      dispatch(addToCart({ ...product, qty: Number(qty) }));
       toast.info('add to cart');
     }
   };

@@ -7,7 +7,7 @@ import Root from './ProductList';
 import ProductFilter from './components/Filter';
 import ProductListComponent from '@components/Product/List';
 
-import { getDesktop } from '@redux/reducers/app';
+import { getIsDesktop } from '@redux/reducers/app';
 import { IProduct } from '@interfaces/index';
 
 type ProductListProps = {
@@ -19,7 +19,7 @@ const ProductList: FC<ProductListProps> = ({
   products,
   title = 'Products'
 }) => {
-  const isDesktop = useSelector(getDesktop());
+  const isDesktop = useSelector(getIsDesktop());
   const { t } = useTranslation();
 
   return (

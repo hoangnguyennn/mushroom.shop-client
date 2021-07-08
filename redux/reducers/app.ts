@@ -11,16 +11,16 @@ const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
-    setLoadingAction(state, action) {
+    setIsLoading(state, action) {
       state.isLoading = action.payload;
     },
-    setDesktopAction(state, action) {
+    setIsDesktop(state, action) {
       state.isDesktop = action.payload;
     }
   }
 });
 
-export const { setLoadingAction, setDesktopAction } = appSlice.actions;
+export const { setIsLoading, setIsDesktop } = appSlice.actions;
 
 const appState = (state: IRootState) => state.app;
 const selector = function <T>(combiner: { (state: IAppState): T }) {
@@ -28,7 +28,7 @@ const selector = function <T>(combiner: { (state: IAppState): T }) {
 };
 
 export const getLimitOfToast = () => selector(state => state.limitOfToast);
-export const getLoading = () => selector(state => state.isLoading);
-export const getDesktop = () => selector(state => state.isDesktop);
+export const getIsLoading = () => selector(state => state.isLoading);
+export const getIsDesktop = () => selector(state => state.isDesktop);
 
 export default appSlice.reducer;

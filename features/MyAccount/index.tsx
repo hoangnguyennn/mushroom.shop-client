@@ -14,23 +14,22 @@ import Input from '@components/core/Input';
 import Invalid from '@components/core/Invalid';
 import Loading from '@components/Loading';
 
-import { getLoading } from '@redux/reducers/app';
-import { getUserInfo, updateUserInfoAction } from '@redux/reducers/auth';
+import { getIsLoading } from '@redux/reducers/app';
+import { getUser, updateUserInfoAction } from '@redux/reducers/auth';
 import { IUserUpdateInfo } from '@interfaces/index';
 
 const MyAccount = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const userInfo = useSelector(getUserInfo());
-  const isLoading = useSelector(getLoading());
+  const userInfo = useSelector(getUser());
+  const isLoading = useSelector(getIsLoading());
 
-  const [initialUserInforValues, setInitialUserInforValues] = useState<
-    IUserUpdateInfo
-  >({
-    fullName: '',
-    phone: '',
-    address: ''
-  });
+  const [initialUserInforValues, setInitialUserInforValues] =
+    useState<IUserUpdateInfo>({
+      fullName: '',
+      phone: '',
+      address: ''
+    });
 
   const userInforValidationSchema = Yup.object({
     fullName: Yup.string().required(t('This field is required')),

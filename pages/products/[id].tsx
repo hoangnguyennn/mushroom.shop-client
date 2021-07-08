@@ -1,10 +1,10 @@
 import { GetServerSideProps } from 'next';
 import { useSelector } from 'react-redux';
 
-import { getProductByIdAction, getProduct } from '@redux/reducers/product';
+import { fetchProductById, getProduct } from '@redux/reducers/product';
 import { initialStore } from '@redux/store';
 import { productPage } from '@configs/breadcrumb';
-import { setDesktopAction } from '@redux/reducers/app';
+import { setIsDesktop } from '@redux/reducers/app';
 import isDesktop from '@helpers/isDesktop';
 import MainLayout from '@layouts/MainLayout';
 import PageContent from '@components/PageContent';
@@ -34,10 +34,10 @@ export const getServerSideProps: GetServerSideProps = async context => {
   const { dispatch } = reduxStore;
 
   const secChUaMobile = context.req.headers['sec-ch-ua-mobile'] as string;
-  dispatch(setDesktopAction(isDesktop(secChUaMobile)));
+  dispatch(setIsDesktop(isDesktop(secChUaMobile)));
 
   try {
-    await dispatch(getProductByIdAction(id as string));
+    await dispatch(fetchProductById(id as string));
 
     return {
       props: {

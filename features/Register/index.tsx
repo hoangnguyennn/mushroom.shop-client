@@ -16,7 +16,7 @@ import Invalid from '@components/core/Invalid';
 
 import { IRegisterForm } from '@interfaces/index';
 import { PATH_NAME } from '@configs/pathName';
-import { registerAction } from '@redux/reducers/auth';
+import { register } from '@redux/reducers/auth';
 
 const Register = () => {
   const { t } = useTranslation();
@@ -33,9 +33,7 @@ const Register = () => {
 
   const validationSchema = Yup.object({
     fullName: Yup.string().required(t('This field is required')),
-    email: Yup.string()
-      .email()
-      .required(t('This field is required')),
+    email: Yup.string().email().required(t('This field is required')),
     phone: Yup.string().required(t('This field is required')),
     password: Yup.string().required(t('This field is required')),
     confirmPassword: Yup.string()
@@ -46,7 +44,7 @@ const Register = () => {
   const handleSubmit = async (values: IRegisterForm, { setSubmitting }) => {
     try {
       await dispatch(
-        registerAction({
+        register({
           fullName: values.fullName,
           email: values.email,
           phone: values.phone,

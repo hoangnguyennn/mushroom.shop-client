@@ -4,12 +4,12 @@ import { useDispatch } from 'react-redux';
 import Footer from '@components/Footer';
 import Header from '@components/Header';
 
-import { updateCartFromLocalStorageAction } from '@redux/reducers/cart';
+import { updateCartFromLocalStorage } from '@redux/reducers/cart';
 
 const MainLayout: FC = ({ children }) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(updateCartFromLocalStorageAction());
+    dispatch(updateCartFromLocalStorage());
   }, []);
 
   return (

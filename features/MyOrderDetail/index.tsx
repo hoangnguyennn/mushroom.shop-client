@@ -8,8 +8,8 @@ import Root from './MyOrderDetail';
 
 import Loading from '@components/Loading';
 
-import { getLoading } from '@redux/reducers/app';
-import { getOrderById, getOrdersAction } from '@redux/reducers/order';
+import { getIsLoading } from '@redux/reducers/app';
+import { getOrderById, fetchOrders } from '@redux/reducers/order';
 import { imageUrlToSpecificSize } from '@utils/converter';
 import { isoDateToNativeDate, toCurrency } from '@utils/formatter';
 import { orderStatus } from '@constants/index';
@@ -23,7 +23,7 @@ const MyOrderDetail = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  const isLoading = useSelector(getLoading());
+  const isLoading = useSelector(getIsLoading());
   const order = useSelector(getOrderById(id as string));
   const items = order?.items;
 
@@ -36,7 +36,7 @@ const MyOrderDetail = () => {
   );
 
   useEffect(() => {
-    dispatch(getOrdersAction());
+    dispatch(fetchOrders());
   }, []);
 
   useEffect(() => {
