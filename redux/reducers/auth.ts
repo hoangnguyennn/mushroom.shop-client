@@ -1,4 +1,9 @@
-import { createSlice, createSelector, Dispatch } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  createSelector,
+  Dispatch,
+  createAsyncThunk
+} from '@reduxjs/toolkit';
 
 import { IAuthState, IRootState } from '@interfaces/IState';
 import { ILogin, IUserCreate, IUserUpdate } from '@interfaces/index';
@@ -54,54 +59,66 @@ const AuthSlice = createSlice({
 
 const { setToken, setUser, clearUser } = AuthSlice.actions;
 
-const register = (user: IUserCreate) => async () => {
-  return registerApi(user);
-};
-
-const login = (userLogin: ILogin) => async (dispatch: Dispatch) => {
-  return loginApi(userLogin).then(response => {
-    dispatch(setToken(response.token));
-    dispatch(setUser(response.user));
-    window.localStorage.setItem('access-token', response.token);
-  });
-};
-
-const loginByToken = () => async (dispatch: Dispatch) => {
-  const token = localStorage.getItem('access-token');
-  if (!token) {
-    localStorage.removeItem('access-token');
-    return;
+export const register = createAsyncThunk(
+  'auth/register',
+  async (user: IUserCreate) => {
+    return registerApi(user);
   }
+);
 
-  return loginByTokenApi()
-    .then(user => {
-      dispatch(setToken(token));
-      dispatch(setUser(user));
-    })
-    .catch(err => {
-      localStorage.removeItem('access-token');
-      throw err;
+export const login = createAsyncThunk(
+  'auth/login',
+  async (userLogin: ILogin, { dispatch }) => {
+    return loginApi(userLogin).then(response => {
+      dispatch(setToken(response.token));
+      dispatch(setUser(response.user));
+      window.localStorage.setItem('access-token', response.token);
     });
-};
+  }
+);
 
-const logout = () => () => localStorage.removeItem('access-token');
-
-const updateUserInfoAction = (userId: string, userInfo: IUserUpdate) => {
-  return async (dispatch: Dispatch) => {
+export const loginByToken = createAsyncThunk(
+  'auth/loginByToken',
+  async (_, { dispatch }) => {
     const token = localStorage.getItem('access-token');
     if (!token) {
       localStorage.removeItem('access-token');
-      dispatch(clearUser());
-      throw new Error('token not found');
+      return;
     }
 
-    return updateUserInfoApi(userId, userInfo).then(userUpdated => {
-      dispatch(setUser(userUpdated));
-    });
-  };
-};
+    return loginByTokenApi()
+      .then(user => {
+        dispatch(setToken(token));
+        dispatch(setUser(user));
+      })
+      .catch(err => {
+        localStorage.removeItem('access-token');
+        throw err;
+      });
+  }
+);
 
-export { login, loginByToken, logout, register, updateUserInfoAction };
+export const logout = createAsyncThunk('auth/logout', async () => {
+  localStorage.removeItem('access-token');
+});
+
+export const updateUserInfo = createAsyncThunk(
+  'auth/updateUserInfo',
+  async ({ userId, userInfo }: { userId: string; userInfo: IUserUpdate }) => {
+    return async (dispatch: Dispatch) => {
+      const token = localStorage.getItem('access-token');
+      if (!token) {
+        localStorage.removeItem('access-token');
+        dispatch(clearUser());
+        throw new Error('token not found');
+      }
+
+      return updateUserInfoApi(userId, userInfo).then(userUpdated => {
+        dispatch(setUser(userUpdated));
+      });
+    };
+  }
+);
 
 const authState = (state: IRootState) => state.auth;
 const selector = function <T>(combiner: { (state: IAuthState): T }) {

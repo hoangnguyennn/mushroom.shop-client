@@ -1,4 +1,8 @@
-import { createSelector, createSlice, Dispatch } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createSelector,
+  createSlice
+} from '@reduxjs/toolkit';
 
 import { IProduct } from '@interfaces/index';
 import { IProductState, IRootState } from '@interfaces/IState';
@@ -50,30 +54,44 @@ const productSlice = createSlice({
 const { setTrendingProducts, setProduct, setProducts, setCategoryProducts } =
   productSlice.actions;
 
-export const fetchProducts = (query: any) => async (dispatch: Dispatch) => {
-  return fetchProductsApi(query).then(({ data }) => {
-    dispatch(setProducts(data));
-  });
-};
+export const fetchProducts = createAsyncThunk(
+  'product/fetchProducts',
+  async (query: { [key: string]: any }, { dispatch }) => {
+    return fetchProductsApi(query).then(({ data }) => {
+      dispatch(setProducts(data));
+    });
+  }
+);
 
-export const fetchTrendingProducts = () => async (dispatch: Dispatch) => {
-  return fetchTrendingProductsApi().then(trendingProducts => {
-    dispatch(setTrendingProducts(trendingProducts));
-  });
-};
+export const fetchTrendingProducts = createAsyncThunk(
+  'product/fetchTrendingProducts',
+  async (_, { dispatch }) => {
+    return fetchTrendingProductsApi().then(trendingProducts => {
+      dispatch(setTrendingProducts(trendingProducts));
+    });
+  }
+);
 
-export const fetchProductById = (id: string) => async (dispatch: Dispatch) => {
-  return fetchProductByIdApi(id).then(product => {
-    dispatch(setProduct(product));
-  });
-};
+export const fetchProductById = createAsyncThunk(
+  'product/fetchProductById',
+  async (id: string, { dispatch }) => {
+    return fetchProductByIdApi(id).then(product => {
+      dispatch(setProduct(product));
+    });
+  }
+);
 
-export const fetchProductsByCategorySlug =
-  (slug: string, query: any) => async (dispatch: Dispatch) => {
+export const fetchProductsByCategorySlug = createAsyncThunk(
+  'product/fetchProductsByCategorySlug',
+  async (
+    { slug, query }: { slug: string; query: { [key: string]: any } },
+    { dispatch }
+  ) => {
     return fetchProductsByCategorySlugApi(slug, query).then(products => {
       dispatch(setCategoryProducts({ products, categorySlug: slug }));
     });
-  };
+  }
+);
 
 const productState = (state: IRootState) => state.product;
 const selector = function <T>(combiner: { (state: IProductState): T }) {

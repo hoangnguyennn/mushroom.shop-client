@@ -29,7 +29,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
 
   const secChUaMobile = context.req.headers['sec-ch-ua-mobile'] as string;
   dispatch(setIsDesktop(isDesktop(secChUaMobile)));
-  await dispatch(fetchPaymentMethods());
+  await dispatch(fetchPaymentMethods()).unwrap();
 
   return {
     props: { title: i18n.t('Cart'), initialReduxState: reduxStore.getState() }

@@ -1,11 +1,11 @@
 import { FC } from 'react';
 import { toast } from 'react-toastify';
-import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 
 import ProductItem from '../Item';
 import ProductListStyled from './ProductList';
+import { useAppDispatch } from '@hooks/useAppDispatch';
 
 import { addToCart } from '@redux/reducers/cart';
 import { IProduct } from '@interfaces/index';
@@ -29,7 +29,7 @@ const ProductList: FC<ProductListProps> = ({
   ...rest
 }: ProductListProps) => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   return (
     <ProductListStyled hasTitle={!!title} {...rest}>

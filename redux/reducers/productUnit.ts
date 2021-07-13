@@ -1,4 +1,8 @@
-import { createSelector, createSlice, Dispatch } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createSelector,
+  createSlice
+} from '@reduxjs/toolkit';
 import { IProductUnitState, IRootState } from '@interfaces/IState';
 import { fetchProductUnitsApi } from '@apis/common';
 import sorter from '@helpers/sorter';
@@ -19,12 +23,14 @@ const productUnitSlice = createSlice({
 
 const { setProductUnits } = productUnitSlice.actions;
 
-export const fetchProductUnits =
-  (query?: any) => async (dispatch: Dispatch) => {
+export const fetchProductUnits = createAsyncThunk(
+  'productUnit',
+  async (query: { [key: string]: any }, { dispatch }) => {
     return fetchProductUnitsApi(query).then(productUnits => {
       dispatch(setProductUnits(productUnits));
     });
-  };
+  }
+);
 
 const productUnitState = (state: IRootState) => state.productUnit;
 const selector = function <T>(combiner: { (state: IProductUnitState): T }) {

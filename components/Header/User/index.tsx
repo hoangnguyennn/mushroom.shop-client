@@ -1,9 +1,9 @@
 import { FC } from 'react';
-import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 
+import { useAppDispatch } from '@hooks/useAppDispatch';
 import { logout } from '@redux/reducers/auth';
 import { PATH_NAME } from '@configs/pathName';
 import Root from './User';
@@ -14,12 +14,15 @@ type UserProps = {
 
 const User: FC<UserProps> = ({ fullName }) => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const router = useRouter();
 
-  const handleLogout = async () => {
-    await dispatch(logout());
-    router.replace(PATH_NAME.HOME);
+  const handleLogout = () => {
+    dispatch(logout())
+      .unwrap()
+      .then(() => {
+        router.replace(PATH_NAME.HOME);
+      });
   };
 
   return (

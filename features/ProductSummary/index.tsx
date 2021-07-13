@@ -7,9 +7,10 @@ import {
   useState
 } from 'react';
 import { toast } from 'react-toastify';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
+import { useAppDispatch } from '@hooks/useAppDispatch';
 import Root from './ProductSummary';
 
 import Button from '@components/core/Button';
@@ -30,7 +31,7 @@ type ProductSummaryProps = {
 const ProductSummary: FC<ProductSummaryProps> = ({ product }) => {
   const { t } = useTranslation();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const isDesktop = useSelector(getIsDesktop());
 
   const [qty, setQty] = useState('1');

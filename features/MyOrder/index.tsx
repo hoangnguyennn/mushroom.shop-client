@@ -1,8 +1,9 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 
+import { useAppDispatch } from '@hooks/useAppDispatch';
 import Root from './MyOrder';
 import Loading from '@components/Loading';
 
@@ -13,7 +14,7 @@ import { orderStatus } from '@constants/index';
 import { PATH_NAME } from '@configs/pathName';
 
 const MyOrder = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
   const orders = useSelector(getOrders());

@@ -25,7 +25,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
 
   const secChUaMobile = context.req.headers['sec-ch-ua-mobile'] as string;
   dispatch(setIsDesktop(isDesktop(secChUaMobile)));
-  await dispatch(fetchTrendingProducts());
+  await dispatch(fetchTrendingProducts()).unwrap();
 
   return {
     props: { initialReduxState: reduxStore.getState(), title: i18n.t('Home') }

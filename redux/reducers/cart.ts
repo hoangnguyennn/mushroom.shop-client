@@ -1,4 +1,8 @@
-import { createSelector, createSlice, Dispatch } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createSelector,
+  createSlice
+} from '@reduxjs/toolkit';
 
 import { ICartState, IRootState } from '@interfaces/IState';
 import { IOrder } from '@interfaces/index';
@@ -94,11 +98,14 @@ export const {
   updateQty
 } = cartSlice.actions;
 
-export const order = (orderRequest: IOrder) => async (dispatch: Dispatch) => {
-  return orderApi(orderRequest).then(() => {
-    setTimeout(() => dispatch(clearCart()), 1000);
-  });
-};
+export const order = createAsyncThunk(
+  'cart/order',
+  async (orderRequest: IOrder, { dispatch }) => {
+    return orderApi(orderRequest).then(() => {
+      setTimeout(() => dispatch(clearCart()), 1000);
+    });
+  }
+);
 
 const cartState = (state: IRootState) => state.cart;
 const selector = function <T>(combiner: { (state: ICartState): T }) {

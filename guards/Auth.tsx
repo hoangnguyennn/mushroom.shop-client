@@ -1,10 +1,11 @@
 import { FC, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
+import { useAppDispatch } from '@hooks/useAppDispatch';
 import { getToken, loginByToken } from '@redux/reducers/auth';
 
 const Auth: FC = ({ children }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const token = useSelector(getToken());
 
   useEffect(() => {

@@ -37,7 +37,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
   dispatch(setIsDesktop(isDesktop(secChUaMobile)));
 
   try {
-    await dispatch(fetchProductById(id as string));
+    await dispatch(fetchProductById(id as string)).unwrap();
 
     return {
       props: {
@@ -45,9 +45,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
         title: getProduct()(reduxStore.getState())?.name
       }
     };
-  } catch (err) {
-    console.log(err);
-
+  } catch {
     return {
       notFound: true
     };

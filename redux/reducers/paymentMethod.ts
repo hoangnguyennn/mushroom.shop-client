@@ -1,4 +1,8 @@
-import { createSelector, createSlice, Dispatch } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createSelector,
+  createSlice
+} from '@reduxjs/toolkit';
 
 import { IPaymentMethodState, IRootState } from '@interfaces/IState';
 import { fetchPaymentMethodsApi } from '@apis/common';
@@ -19,11 +23,14 @@ const paymentMethodSlice = createSlice({
 
 const { setPaymentMethods } = paymentMethodSlice.actions;
 
-export const fetchPaymentMethods = () => async (dispatch: Dispatch) => {
-  return fetchPaymentMethodsApi().then(paymentMethods => {
-    dispatch(setPaymentMethods(paymentMethods));
-  });
-};
+export const fetchPaymentMethods = createAsyncThunk(
+  'paymentMethod/fetchPaymentMethods',
+  async (_, { dispatch }) => {
+    return fetchPaymentMethodsApi().then(paymentMethods => {
+      dispatch(setPaymentMethods(paymentMethods));
+    });
+  }
+);
 
 const paymentMethodState = (state: IRootState) => state.paymentMethod;
 const selector = function <T>(combiner: { (state: IPaymentMethodState): T }) {

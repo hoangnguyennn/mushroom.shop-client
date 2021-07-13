@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
@@ -8,6 +8,7 @@ import * as Yup from 'yup';
 import classNames from 'classnames';
 import Link from 'next/link';
 
+import { useAppDispatch } from '@hooks/useAppDispatch';
 import CartStyled from './Cart';
 
 import { toCurrency } from '@utils/formatter';
@@ -40,7 +41,7 @@ const Cart = () => {
   const paymentMethods = useSelector(getPaymentMethods());
   const userInfo = useSelector(getUser());
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const router = useRouter();
 
   const [isValid, setIsValid] = useState(false);
@@ -79,15 +80,14 @@ const Cart = () => {
       }))
     };
 
-    try {
-      await dispatch(order(orderRequest));
-      router.replace(`${PATH_NAME.ORDERS}?status=success`);
-      toast.success('success');
-    } catch (err) {
-      toast.error(err.message || 'error');
-    }
-
-    setSubmitting(false);
+    dispatch(order(orderRequest))
+      .unwrap()
+      .then(() => {
+        router.replace(`${PATH_NAME.ORDERS}?status=success`);
+        toast.success('success');
+      })
+      .catch(err => toast.error(err.message || 'error'))
+      .finally(() => setSubmitting(false));
   };
 
   const formik = useFormik({

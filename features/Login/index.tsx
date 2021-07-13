@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import Link from 'next/link';
 
+import { useAppDispatch } from '@hooks/useAppDispatch';
 import LoginStyled from './Login';
 
 import Button from '@components/core/Button';
@@ -20,7 +21,7 @@ import { PATH_NAME } from '@configs/pathName';
 
 const Login = () => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const token = useSelector(getToken());
 
@@ -35,17 +36,16 @@ const Login = () => {
   });
 
   const handleSubmit = async (values: ILogin, { setSubmitting }) => {
-    try {
-      await dispatch(login(values));
-      setSubmitting(false);
-      toast.success('success');
-    } catch (err) {
-      toast.error(err.message || 'error');
-    }
-
-    if (token) {
-      router.replace(PATH_NAME.HOME);
-    }
+    dispatch(login(values))
+      .unwrap()
+      .then(() => {
+        if (token) {
+          toast.success('success');
+          router.replace(PATH_NAME.HOME);
+        }
+      })
+      .catch(err => toast.error(err.message || 'error'))
+      .finally(() => setSubmitting(false));
   };
 
   const formik = useFormik({

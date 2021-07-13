@@ -1,10 +1,11 @@
 import { toast } from 'react-toastify';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 
+import { useAppDispatch } from '@hooks/useAppDispatch';
 import Root from './MyAccount';
 
 import Button from '@components/core/Button';
@@ -15,12 +16,12 @@ import Invalid from '@components/core/Invalid';
 import Loading from '@components/Loading';
 
 import { getIsLoading } from '@redux/reducers/app';
-import { getUser, updateUserInfoAction } from '@redux/reducers/auth';
+import { getUser, updateUserInfo } from '@redux/reducers/auth';
 import { IUserUpdateInfo } from '@interfaces/index';
 
 const MyAccount = () => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const userInfo = useSelector(getUser());
   const isLoading = useSelector(getIsLoading());
 
@@ -41,13 +42,11 @@ const MyAccount = () => {
     values: IUserUpdateInfo,
     { setSubmitting }
   ) => {
-    try {
-      await dispatch(updateUserInfoAction(userInfo.id, values));
-      setSubmitting(false);
-      toast.success('success');
-    } catch (err) {
-      toast.error(err.message || 'error');
-    }
+    dispatch(updateUserInfo({ userId: userInfo.id, userInfo: values }))
+      .unwrap()
+      .then(() => toast.success('success'))
+      .catch(err => toast.error(err.message || 'error'))
+      .finally(() => setSubmitting(false));
   };
 
   const userFormik = useFormik({
@@ -75,13 +74,16 @@ const MyAccount = () => {
 
   const handleChangePasswordSubmit = async (values: any, { setSubmitting }) => {
     const newValues = { password: values.newPassword };
-    try {
-      await dispatch(updateUserInfoAction(userInfo.id, newValues));
-      setSubmitting(false);
-      toast.success('success');
-    } catch (err) {
-      toast.error(err.message || 'error');
-    }
+    dispatch(
+      updateUserInfo({
+        userId: userInfo.id,
+        userInfo: newValues
+      })
+    )
+      .unwrap()
+      .then(() => toast.success('success'))
+      .catch(err => toast.error(err.message || 'error'))
+      .finally(() => setSubmitting(false));
   };
 
   const changePasswordFormik = useFormik({

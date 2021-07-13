@@ -50,9 +50,11 @@ export const getServerSideProps: GetServerSideProps = async context => {
   const category = context.query.category as string;
   const query = context.query;
   try {
-    await dispatch(fetchProductsByCategorySlug(category, query));
-    await dispatch(fetchCategories(query));
-    await dispatch(fetchProductUnits({ slug: category, ...query }));
+    await dispatch(
+      fetchProductsByCategorySlug({ slug: category, query })
+    ).unwrap();
+    await dispatch(fetchCategories(query)).unwrap();
+    await dispatch(fetchProductUnits({ slug: category, ...query })).unwrap();
 
     const categoryInfo = getCategoryBySlug(category)(reduxStore.getState());
 
@@ -62,7 +64,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
         title: categoryInfo?.name
       }
     };
-  } catch (err) {
+  } catch {
     return {
       notFound: true
     };

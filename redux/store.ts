@@ -14,6 +14,7 @@ import { IRootState } from '@interfaces/IState';
 import rootReducer from './reducers';
 
 import { interceptors } from '@services/instance';
+import { getAppDispatch } from '@hooks/useAppDispatch';
 
 let store: ReturnType<typeof initStore>;
 
@@ -53,6 +54,7 @@ export const initialStore = (preloadedState?: IRootState) => {
   if (!store) store = _store;
 
   interceptors(store);
+  getAppDispatch(store);
   return _store;
 };
 

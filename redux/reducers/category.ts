@@ -1,4 +1,8 @@
-import { createSelector, createSlice, Dispatch } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createSelector,
+  createSlice
+} from '@reduxjs/toolkit';
 import { ICategoryState, IRootState } from '@interfaces/IState';
 import { fetchCategoriesApi } from '@apis/common';
 import sorter from '@helpers/sorter';
@@ -19,11 +23,14 @@ const categorySlice = createSlice({
 
 const { setCategories } = categorySlice.actions;
 
-export const fetchCategories = (query: any) => async (dispatch: Dispatch) => {
-  return fetchCategoriesApi(query).then(categories => {
-    dispatch(setCategories(categories));
-  });
-};
+export const fetchCategories = createAsyncThunk(
+  'category/fetchCategories',
+  async (query: { [key: string]: any }, { dispatch }) => {
+    return fetchCategoriesApi(query).then(categories => {
+      dispatch(setCategories(categories));
+    });
+  }
+);
 
 const categoryState = (state: IRootState) => state.category;
 const selector = function <T>(combiner: { (state: ICategoryState): T }) {

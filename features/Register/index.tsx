@@ -1,5 +1,4 @@
 import { toast } from 'react-toastify';
-import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
@@ -17,10 +16,11 @@ import Invalid from '@components/core/Invalid';
 import { IRegisterForm } from '@interfaces/index';
 import { PATH_NAME } from '@configs/pathName';
 import { register } from '@redux/reducers/auth';
+import { useAppDispatch } from '@hooks/useAppDispatch';
 
 const Register = () => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const router = useRouter();
 
   const initialValues: IRegisterForm = {
@@ -42,20 +42,20 @@ const Register = () => {
   });
 
   const handleSubmit = async (values: IRegisterForm, { setSubmitting }) => {
-    try {
-      await dispatch(
-        register({
-          fullName: values.fullName,
-          email: values.email,
-          phone: values.phone,
-          password: values.password
-        })
-      );
-      router.push(PATH_NAME.LOGIN);
-      toast.success('success');
-    } catch (err) {
-      toast.error(err.message || 'error');
-    }
+    const user = {
+      fullName: values.fullName,
+      email: values.email,
+      phone: values.phone,
+      password: values.password
+    };
+
+    dispatch(register(user))
+      .unwrap()
+      .then(() => {
+        router.push(PATH_NAME.LOGIN);
+        toast.success('success');
+      })
+      .catch(err => toast.error(err.message || 'error'));
 
     setSubmitting(false);
   };

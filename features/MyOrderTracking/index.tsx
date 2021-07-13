@@ -1,9 +1,10 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 
+import { useAppDispatch } from '@hooks/useAppDispatch';
 import Root from './MyOrderTracking';
 
 import Loading from '@components/Loading';
@@ -16,7 +17,7 @@ import { PATH_NAME } from '@configs/pathName';
 
 const MyOrderTracking = () => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const orderId = router.query.id;
   const isLoading = useSelector(getIsLoading());
