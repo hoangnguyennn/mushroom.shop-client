@@ -1,7 +1,6 @@
 import {
   createSlice,
   createSelector,
-  Dispatch,
   createAsyncThunk
 } from '@reduxjs/toolkit';
 
@@ -104,19 +103,20 @@ export const logout = createAsyncThunk('auth/logout', async () => {
 
 export const updateUserInfo = createAsyncThunk(
   'auth/updateUserInfo',
-  async ({ userId, userInfo }: { userId: string; userInfo: IUserUpdate }) => {
-    return async (dispatch: Dispatch) => {
-      const token = localStorage.getItem('access-token');
-      if (!token) {
-        localStorage.removeItem('access-token');
-        dispatch(clearUser());
-        throw new Error('token not found');
-      }
+  async (
+    { userId, userInfo }: { userId: string; userInfo: IUserUpdate },
+    { dispatch }
+  ) => {
+    const token = localStorage.getItem('access-token');
+    if (!token) {
+      localStorage.removeItem('access-token');
+      dispatch(clearUser());
+      throw new Error('token not found');
+    }
 
-      return updateUserInfoApi(userId, userInfo).then(userUpdated => {
-        dispatch(setUser(userUpdated));
-      });
-    };
+    return updateUserInfoApi(userId, userInfo).then(userUpdated => {
+      dispatch(setUser(userUpdated));
+    });
   }
 );
 

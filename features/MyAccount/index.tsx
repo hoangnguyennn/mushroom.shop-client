@@ -72,7 +72,10 @@ const MyAccount = () => {
       .required(t('This field is required'))
   });
 
-  const handleChangePasswordSubmit = async (values: any, { setSubmitting }) => {
+  const handleChangePasswordSubmit = async (
+    values: typeof initialChangePasswordValues,
+    { setSubmitting }
+  ) => {
     const newValues = { password: values.newPassword };
     dispatch(
       updateUserInfo({

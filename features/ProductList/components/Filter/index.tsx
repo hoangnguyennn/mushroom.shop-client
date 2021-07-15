@@ -22,10 +22,9 @@ import { numberWithDot } from '@utils/formatter';
 import { PATH_NAME } from '@configs/pathName';
 import { removeFalsyFields } from '@utils/converter';
 import { sameObject } from '@utils/comparison';
+import { IObject } from '@interfaces/index';
 
-type ProductFilterProps = {
-  [key: string]: any;
-};
+type ProductFilterProps = IObject;
 
 const ProductFilter: FC<ProductFilterProps> = ({ className }) => {
   const { t } = useTranslation();

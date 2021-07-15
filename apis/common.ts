@@ -3,6 +3,7 @@ import {
   ICategoryWithProductLength,
   ILogin,
   ILoginResponse,
+  IObject,
   IOrder,
   IOrderResponse,
   IPaymentMethod,
@@ -14,9 +15,9 @@ import {
 } from '@interfaces/index';
 import httpRequest from '@services/httpRequest';
 
-export const fetchCategoriesApi = async (query: {
-  [key: string]: any;
-}): Promise<ICategoryWithProductLength> => {
+export const fetchCategoriesApi = async (
+  query: IObject
+): Promise<ICategoryWithProductLength> => {
   return httpRequest.get(ENDPOINT.categories, {
     params: { ...query, 'with-product-length': 'true' }
   });
@@ -34,15 +35,15 @@ export const fetchProductByIdApi = async (id: string): Promise<IProduct> => {
   return httpRequest.get(`${ENDPOINT.products}/${id}`);
 };
 
-export const fetchProductsApi = async (query: {
-  [key: string]: any;
-}): Promise<{ data: IProduct[]; total: number }> => {
+export const fetchProductsApi = async (
+  query: IObject
+): Promise<{ data: IProduct[]; total: number }> => {
   return httpRequest.get(ENDPOINT.products, { params: query });
 };
 
 export const fetchProductsByCategorySlugApi = async (
   slug: string,
-  query: { [key: string]: any }
+  query: IObject
 ) => {
   return httpRequest.get(
     `${ENDPOINT.categories}/slug/${slug}${ENDPOINT.products}`,
@@ -50,9 +51,9 @@ export const fetchProductsByCategorySlugApi = async (
   );
 };
 
-export const fetchProductUnitsApi = async (query?: {
-  [key: string]: any;
-}): Promise<IProductUnitWithLength> => {
+export const fetchProductUnitsApi = async (
+  query?: IObject
+): Promise<IProductUnitWithLength> => {
   return httpRequest.get(ENDPOINT.productUnits, {
     params: { ...query, 'with-product-length': 'true' }
   });

@@ -8,7 +8,7 @@ import ProductListStyled from './ProductList';
 import { useAppDispatch } from '@hooks/useAppDispatch';
 
 import { addToCart } from '@redux/reducers/cart';
-import { IProduct } from '@interfaces/index';
+import { IObject, IProduct } from '@interfaces/index';
 import { PATH_NAME } from '@configs/pathName';
 import Button from '@components/core/Button';
 
@@ -18,8 +18,7 @@ type ProductListProps = {
   title?: string;
   viewMore?: boolean;
   items: IProduct[];
-  [key: string]: any;
-};
+} & IObject;
 
 const ProductList: FC<ProductListProps> = ({
   title,

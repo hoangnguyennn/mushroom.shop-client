@@ -6,6 +6,7 @@ import {
 import { ICategoryState, IRootState } from '@interfaces/IState';
 import { fetchCategoriesApi } from '@apis/common';
 import sorter from '@helpers/sorter';
+import { IObject } from '@interfaces/index';
 
 export const initialState: ICategoryState = {
   categories: []
@@ -25,7 +26,7 @@ const { setCategories } = categorySlice.actions;
 
 export const fetchCategories = createAsyncThunk(
   'category/fetchCategories',
-  async (query: { [key: string]: any }, { dispatch }) => {
+  async (query: IObject, { dispatch }) => {
     return fetchCategoriesApi(query).then(categories => {
       dispatch(setCategories(categories));
     });

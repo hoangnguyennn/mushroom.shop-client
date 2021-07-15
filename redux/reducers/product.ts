@@ -4,7 +4,7 @@ import {
   createSlice
 } from '@reduxjs/toolkit';
 
-import { IProduct } from '@interfaces/index';
+import { IObject, IProduct } from '@interfaces/index';
 import { IProductState, IRootState } from '@interfaces/IState';
 import {
   fetchProductByIdApi,
@@ -56,7 +56,7 @@ const { setTrendingProducts, setProduct, setProducts, setCategoryProducts } =
 
 export const fetchProducts = createAsyncThunk(
   'product/fetchProducts',
-  async (query: { [key: string]: any }, { dispatch }) => {
+  async (query: IObject, { dispatch }) => {
     return fetchProductsApi(query).then(({ data }) => {
       dispatch(setProducts(data));
     });
@@ -83,10 +83,7 @@ export const fetchProductById = createAsyncThunk(
 
 export const fetchProductsByCategorySlug = createAsyncThunk(
   'product/fetchProductsByCategorySlug',
-  async (
-    { slug, query }: { slug: string; query: { [key: string]: any } },
-    { dispatch }
-  ) => {
+  async ({ slug, query }: { slug: string; query: IObject }, { dispatch }) => {
     return fetchProductsByCategorySlugApi(slug, query).then(products => {
       dispatch(setCategoryProducts({ products, categorySlug: slug }));
     });

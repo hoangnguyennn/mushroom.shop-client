@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import { mediaQueries } from '@helpers/checkTypes';
+import { IObject } from '@interfaces/index';
 
 type RootProps = {
   columns: number;
   'lg-columns': number;
   hasTitle?: boolean;
-  [key: string]: any;
-};
+} & IObject;
 
 const ProductList = styled.div<RootProps>`
   .title {

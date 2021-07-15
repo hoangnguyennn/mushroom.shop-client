@@ -1,6 +1,7 @@
 import {
   ICartItem,
   ICategoryWithProductLength,
+  IObject,
   IOrderResponse,
   IPaymentMethod,
   IProduct,
@@ -37,11 +38,10 @@ export interface IPaymentMethodState {
   paymentMethods: IPaymentMethod[];
 }
 
-export interface IProductState {
+export interface IProductState extends IObject {
   products: IProduct[];
   trendingProducts: IProduct[];
   product: IProduct;
-  [key: string]: any;
 }
 
 export interface IProductUnitState {

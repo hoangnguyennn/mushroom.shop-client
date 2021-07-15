@@ -1,7 +1,7 @@
-import { ICartItem } from '@interfaces/index';
+import { ICartItem, IObject } from '@interfaces/index';
 import { variant } from '@interfaces/types';
 
-export const isProductInCart = (product: any): product is ICartItem => {
+export const isProductInCart = (product: IObject): product is ICartItem => {
   return (
     'id' in product &&
     'name' in product &&

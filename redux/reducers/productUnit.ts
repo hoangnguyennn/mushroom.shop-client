@@ -6,6 +6,7 @@ import {
 import { IProductUnitState, IRootState } from '@interfaces/IState';
 import { fetchProductUnitsApi } from '@apis/common';
 import sorter from '@helpers/sorter';
+import { IObject } from '@interfaces/index';
 
 export const initialState: IProductUnitState = {
   productUnits: []
@@ -25,7 +26,7 @@ const { setProductUnits } = productUnitSlice.actions;
 
 export const fetchProductUnits = createAsyncThunk(
   'productUnit',
-  async (query: { [key: string]: any }, { dispatch }) => {
+  async (query: IObject, { dispatch }) => {
     return fetchProductUnitsApi(query).then(productUnits => {
       dispatch(setProductUnits(productUnits));
     });

@@ -36,6 +36,10 @@ export interface ILoginResponse {
   user: IUser;
 }
 
+export interface IObject<T = any> {
+  [key: string]: T;
+}
+
 export interface IOrder {
   userId?: string;
   deliveryFullName: string;

@@ -1,5 +1,7 @@
-export const removeFalsyFields = (object: any) => {
-  return Object.entries(object).reduce((result: any, [key, value]) => {
+import { IObject } from '@interfaces/index';
+
+export const removeFalsyFields = (object: IObject) => {
+  return Object.entries(object).reduce((result: IObject, [key, value]) => {
     if (value) {
       result[key] = value;
     }
