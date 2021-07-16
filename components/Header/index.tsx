@@ -7,6 +7,7 @@ import Logo from '@components/Logo';
 import HeaderStyled from './Header';
 
 import User from './User';
+import FormSearch from './FormSearch';
 
 import { getCartLength } from '@redux/reducers/cart';
 import { getFullName } from '@redux/reducers/auth';
@@ -21,6 +22,8 @@ const Header = () => {
     <HeaderStyled>
       <Container>
         <Logo />
+
+        <FormSearch />
 
         <div className="tools">
           {fullName ? (

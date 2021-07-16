@@ -149,7 +149,11 @@ const ProductFilter: FC<ProductFilterProps> = ({ className }) => {
       }
 
       if (name) {
-        setProductName(name as string);
+        if (name instanceof Array) {
+          setProductName(name[0]);
+        } else {
+          setProductName(name);
+        }
       } else {
         setProductName('');
       }
