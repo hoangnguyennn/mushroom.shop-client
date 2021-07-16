@@ -7,6 +7,13 @@ export default styled.header`
   padding: 0.75rem 1rem;
   border-bottom: 0.0625rem solid #dae1e7;
 
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--white);
+  z-index: 999;
+
   ${Container} {
     display: flex;
     justify-content: space-between;

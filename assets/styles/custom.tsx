@@ -11,6 +11,7 @@ body {
   color: var(--main-text-color-2);
   font-family: sans-serif;
   line-height: 1.5;
+  padding-top: 71px;
 }
 
 a {
