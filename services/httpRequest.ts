@@ -2,19 +2,31 @@ import { AxiosRequestConfig } from 'axios';
 import axiosInstance from './instance';
 
 const httpRequest = {
-  async get(url: string, config?: AxiosRequestConfig) {
+  async get<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
     return axiosInstance.get(url, config).then(res => res.data);
   },
-  async post(url: string, data?: any, config?: AxiosRequestConfig) {
+  async post<T>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig
+  ): Promise<T> {
     return axiosInstance.post(url, data, config).then(res => res.data);
   },
-  async put(url: string, data?: any, config?: AxiosRequestConfig) {
+  async put<T>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig
+  ): Promise<T> {
     return axiosInstance.put(url, data, config).then(res => res.data);
   },
-  async patch(url: string, data?: any, config?: AxiosRequestConfig) {
+  async patch<T>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig
+  ): Promise<T> {
     return axiosInstance.patch(url, data, config).then(res => res.data);
   },
-  async delete(url: string, config?: AxiosRequestConfig) {
+  async delete<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
     return axiosInstance.delete(url, config).then(res => res.data);
   }
 };

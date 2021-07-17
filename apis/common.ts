@@ -18,9 +18,8 @@ import httpRequest from '@services/httpRequest';
 export const fetchCategoriesApi = async (
   query: IObject
 ): Promise<ICategoryWithProductLength> => {
-  return httpRequest.get(ENDPOINT.categories, {
-    params: { ...query, 'with-product-length': 'true' }
-  });
+  const params = { ...query, 'with-product-length': 'true' };
+  return httpRequest.get(ENDPOINT.categories, { params });
 };
 
 export const fetchOrdersApi = async (): Promise<IOrderResponse[]> => {
@@ -45,18 +44,15 @@ export const fetchProductsByCategorySlugApi = async (
   slug: string,
   query: IObject
 ) => {
-  return httpRequest.get(
-    `${ENDPOINT.categories}/slug/${slug}${ENDPOINT.products}`,
-    { params: query }
-  );
+  const url = `${ENDPOINT.categories}/slug/${slug}${ENDPOINT.products}`;
+  return httpRequest.get(url, { params: query });
 };
 
 export const fetchProductUnitsApi = async (
   query?: IObject
 ): Promise<IProductUnitWithLength> => {
-  return httpRequest.get(ENDPOINT.productUnits, {
-    params: { ...query, 'with-product-length': 'true' }
-  });
+  const params = { ...query, 'with-product-length': 'true' };
+  return httpRequest.get(ENDPOINT.productUnits, { params });
 };
 
 export const fetchTrackingApi = async (orderId: string) => {
