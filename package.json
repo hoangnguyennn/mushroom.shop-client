@@ -4,9 +4,8 @@
   "description": "Mushroom shop Node.js client",
   "scripts": {
     "dev": "next dev -p 8000",
-    "build": "rm -rf .next && NODE_ENV=production next build && tsc --project tsconfig.server.json",
-    "start:prod": "NODE_ENV=production node .next/production-server/server.js",
-    "start": "yarn build && yarn start:prod",
+    "build": "next build",
+    "start": "next start -p $PORT",
     "lint": "eslint .",
     "lint:fix": "yarn lint --fix"
   },
@@ -29,7 +28,6 @@
     "@reduxjs/toolkit": "1.6.0",
     "axios": "0.21.1",
     "classnames": "2.3.1",
-    "express": "4.17.1",
     "formik": "2.2.9",
     "i18next": "20.3.2",
     "next": "11.0.1",
@@ -41,11 +39,10 @@
     "react-redux": "7.2.4",
     "react-toastify": "7.0.4",
     "styled-components": "5.3.0",
-    "yup": "0.32.9",
-    "typescript": "4.3.5"
+    "typescript": "4.3.5",
+    "yup": "0.32.9"
   },
   "devDependencies": {
-    "@types/express": "4.17.13",
     "@types/nprogress": "0.2.0",
     "@types/react": "17.0.13",
     "@types/styled-components": "5.1.11",
