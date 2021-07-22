@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev -p 8000",
     "build": "rm -rf .next && NODE_ENV=production next build && tsc --project tsconfig.server.json",
-    "start": "NODE_ENV=production node .next/production-server/server.js",
+    "start:prod": "NODE_ENV=production node .next/production-server/server.js",
+    "start": "yarn build && yarn start:prod",
     "lint": "eslint .",
     "lint:fix": "yarn lint --fix"
   },

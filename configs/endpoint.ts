@@ -1,5 +1,5 @@
-export const BASE_URL = 'http://localhost:5000/';
-export const IMG_BASE_URL = 'https://res.cloudinary.com/';
+export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+export const IMG_BASE_URL = process.env.NEXT_PUBLIC_IMG_BASE_URL;
 
 export const ENDPOINT = {
   categories: '/categories',
