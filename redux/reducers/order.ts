@@ -62,7 +62,9 @@ export const getOrderById = (id: string) => {
 };
 export const getOrderTracking = () => {
   return selector(state => {
-    return [...state.tracking].sort((a, b) => sorter(a, b, 'dateTime', Number));
+    return [...state.tracking].sort((a, b) =>
+      sorter(a, b, 'dateTime', Number, 'descending')
+    );
   });
 };
 
