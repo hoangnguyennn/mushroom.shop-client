@@ -1,68 +1,29 @@
-import { FC } from 'react';
-import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
-import Link from 'next/link';
-
-import ProductItem from '../Item';
-import ProductListStyled from './ProductList';
-import { useAppDispatch } from '@hooks/useAppDispatch';
-
-import { addToCart } from '@redux/reducers/cart';
-import { IObject, IProduct } from '@interfaces/index';
-import { PATH_NAME } from '@configs/pathName';
 import Button from '@components/core/Button';
+import { IProduct } from '@interfaces/index';
+import Link from 'next/link';
+import { FC } from 'react';
+import ProductItem from '../Item';
+import RootStyled from './ProductList';
 
-type ProductListProps = {
-  columns: number;
-  'lg-columns': number;
-  title?: string;
-  viewMore?: boolean;
-  items: IProduct[];
-} & IObject;
+type Props = {
+  list: IProduct[];
+};
 
-const ProductList: FC<ProductListProps> = ({
-  title,
-  viewMore = true,
-  items,
-  sorterUI,
-  ...rest
-}: ProductListProps) => {
-  const { t } = useTranslation();
-  const dispatch = useAppDispatch();
-
+const ProductList: FC<Props> = ({ list }) => {
   return (
-    <ProductListStyled hasTitle={!!title} {...rest}>
-      {title ? <h3 className="title">{title}</h3> : null}
-      {sorterUI}
-      {items.length ? (
-        <div className="list">
-          {items.map(product => (
-            <ProductItem
-              key={product.id}
-              link={`${PATH_NAME.PRODUCTS}/${product.id}`}
-              addToCart={() => {
-                dispatch(addToCart({ ...product, qty: 1 }));
-                toast.info('add to cart');
-              }}
-              {...product}
-            />
-          ))}
-        </div>
-      ) : (
-        <div className="not-found-products">
-          {t('There are no products to display')}
-        </div>
-      )}
-      {viewMore ? (
-        <div className="view-more">
-          <Link href={PATH_NAME.PRODUCTS}>
-            <Button as="a" href={PATH_NAME.PRODUCTS} shadow outline>
-              {t('More products')}
-            </Button>
-          </Link>
-        </div>
-      ) : null}
-    </ProductListStyled>
+    <RootStyled>
+      <h3 className="title">Sản phẩm</h3>
+      <div className="list">
+        {list.map(item => (
+          <ProductItem key={item.id} {...item} />
+        ))}
+      </div>
+      <div className="view-more">
+        <Link href="/products">
+          <Button>Xem thêm</Button>
+        </Link>
+      </div>
+    </RootStyled>
   );
 };
 

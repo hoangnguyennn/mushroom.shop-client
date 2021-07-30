@@ -1,18 +1,8 @@
-import { FC, useEffect } from 'react';
-
-import Footer from '@components/Footer';
+import { FC } from 'react';
 import Header from '@components/Header';
-
-import { updateCartFromLocalStorage } from '@redux/reducers/cart';
-import { useAppDispatch } from '@hooks/useAppDispatch';
+import Footer from '@components/Footer';
 
 const MainLayout: FC = ({ children }) => {
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(updateCartFromLocalStorage());
-  }, []);
-
   return (
     <>
       <Header />

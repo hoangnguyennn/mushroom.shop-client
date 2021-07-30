@@ -1,44 +1,22 @@
-import { FC } from 'react';
-import { useTranslation } from 'react-i18next';
-import Image from 'next/image';
-import Link from 'next/link';
-
-import { PATH_NAME } from '@configs/pathName';
-import BannerStyled from './Banner';
 import Button from '@components/core/Button';
 import Container from '@components/core/Container';
+import Link from 'next/link';
+import RootStyled from './Banner';
 
-type BannerProps = {
-  background?: StaticImageData;
-};
-
-const Banner: FC<BannerProps> = ({ background }) => {
-  const { t } = useTranslation();
-
+const Banner = () => {
   return (
-    <BannerStyled>
-      <Image
-        alt="Banner"
-        src={background}
-        layout="fill"
-        objectFit="cover"
-        quality={100}
-        className="background"
-        priority={true}
-      />
+    <RootStyled>
       <Container>
         <div className="intro">
-          <h2 className="title">{t('Slogan')}</h2>
+          <h2 className="title">Nấm sạch - Niềm vui và sức khỏe</h2>
           <div className="actions">
-            <Link href={PATH_NAME.PRODUCTS}>
-              <Button as="a" href={PATH_NAME.PRODUCTS} shadow inline>
-                {t('Shop Now')}
-              </Button>
+            <Link href="/products">
+              <Button>Mua nấm ngay</Button>
             </Link>
           </div>
         </div>
       </Container>
-    </BannerStyled>
+    </RootStyled>
   );
 };
 

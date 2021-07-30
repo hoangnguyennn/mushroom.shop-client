@@ -1,38 +1,19 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { useMemo } from 'react';
-
-import { initialState as initialAppState } from './reducers/app';
-import { initialState as initialAuthState } from './reducers/auth';
-import { initialState as initialCartState } from './reducers/cart';
-import { initialState as initialCategoryState } from './reducers/category';
-import { initialState as initialOrderState } from './reducers/order';
-import { initialState as initialPaymentMethodState } from './reducers/paymentMethod';
-import { initialState as initialProductState } from './reducers/product';
-import { initialState as initialProduutUnitState } from './reducers/productUnit';
-
 import { IRootState } from '@interfaces/IState';
-import rootReducer from './reducers';
-
-import { interceptors } from '@services/instance';
-import { getAppDispatch } from '@hooks/useAppDispatch';
+import reducers from './reducers';
+import { initialState as productInitialState } from './reducers/product.reducer';
 
 let store: ReturnType<typeof initStore>;
 
-const initStore = (
-  preloadedState: IRootState = {
-    app: initialAppState,
-    auth: initialAuthState,
-    cart: initialCartState,
-    category: initialCategoryState,
-    order: initialOrderState,
-    paymentMethod: initialPaymentMethodState,
-    product: initialProductState,
-    productUnit: initialProduutUnitState
-  }
-) => {
+const rootState: IRootState = {
+  product: productInitialState
+};
+
+const initStore = (preloadedState = rootState) => {
   return configureStore({
-    preloadedState: preloadedState,
-    reducer: rootReducer
+    preloadedState,
+    reducer: reducers
   });
 };
 
@@ -52,9 +33,6 @@ export const initialStore = (preloadedState?: IRootState) => {
   if (typeof window === 'undefined') return _store;
   // Create the store once in the client
   if (!store) store = _store;
-
-  interceptors(store);
-  getAppDispatch(store);
   return _store;
 };
 

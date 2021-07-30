@@ -1,17 +1,13 @@
-import BootstrapSpacing from './bootstrap-spacing';
-import Custom from './custom';
-import Font from './fonts';
-import NProgress from './nprogress';
-import Variable from './variables';
+import Custom from './Custom';
+import NProgress from './NProgress';
 
-const GlobalStyle = () => (
-  <>
-    <Variable />
-    <Font />
-    <Custom />
-    <BootstrapSpacing />
-    <NProgress />
-  </>
-);
+const GlobalStyle = () => {
+  return (
+    <>
+      <NProgress />
+      <Custom />
+    </>
+  );
+};
 
 export default GlobalStyle;

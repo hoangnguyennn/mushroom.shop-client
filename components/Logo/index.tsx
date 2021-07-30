@@ -1,17 +1,13 @@
 import Link from 'next/link';
-import { useTranslation } from 'react-i18next';
-
-import LogoStyled from './Logo';
+import RootStyled from './Logo';
 
 const Logo = () => {
-  const { t } = useTranslation();
-
   return (
-    <LogoStyled>
+    <RootStyled>
       <Link href="/">
-        <a>{t('Logo')}</a>
+        <a>Logo</a>
       </Link>
-    </LogoStyled>
+    </RootStyled>
   );
 };
 

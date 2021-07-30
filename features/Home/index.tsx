@@ -1,27 +1,21 @@
-import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
+import RootStyled from './Home';
 
-import HomeStyled from './Home';
-
-import { getTrendingProducts } from '@redux/reducers/product';
-import Container from '@components/core/Container';
+import Banner from '@components/Banner';
 import ProductList from '@components/Product/List';
+import Container from '@components/core/Container';
+import { useSelector } from 'react-redux';
+import { getTrendingProducts } from '@redux/reducers/product.reducer';
 
 const Home = () => {
-  const { t } = useTranslation();
   const trendingProducts = useSelector(getTrendingProducts());
 
   return (
-    <HomeStyled>
+    <RootStyled>
+      <Banner />
       <Container>
-        <ProductList
-          columns={1}
-          lg-columns={4}
-          title={t('New products')}
-          items={trendingProducts}
-        />
+        <ProductList list={trendingProducts} />
       </Container>
-    </HomeStyled>
+    </RootStyled>
   );
 };
 

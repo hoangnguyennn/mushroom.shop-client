@@ -1,28 +1,33 @@
-import { FC } from 'react';
 import Link from 'next/link';
+import RootStyled from './Widget';
 
-import { IWidget } from '@interfaces/index';
-import WidgetStyled from './Widget';
-
-type WidgetProps = {
-  title?: string;
-  list: IWidget[];
-};
-
-const Widget: FC<WidgetProps> = ({ title, list }) => {
+const Widget = () => {
   return (
-    <WidgetStyled>
-      <h3 className="title">{title}</h3>
+    <RootStyled>
+      <h3 className="title">Về chúng tôi</h3>
       <ul className="list">
-        {list.map(item => (
-          <li key={item.id} className="item">
-            <Link href={item.url}>
-              <a>{item.title}</a>
-            </Link>
-          </li>
-        ))}
+        <li className="item">
+          <Link href="/">
+            <a>Về công ty</a>
+          </Link>
+        </li>
+        <li className="item">
+          <Link href="/">
+            <a>Về team</a>
+          </Link>
+        </li>
+        <li className="item">
+          <Link href="/">
+            <a>Liên hệ</a>
+          </Link>
+        </li>
+        <li className="item">
+          <Link href="/">
+            <a>Tin tức</a>
+          </Link>
+        </li>
       </ul>
-    </WidgetStyled>
+    </RootStyled>
   );
 };
 
