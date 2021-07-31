@@ -7,9 +7,10 @@ import RootStyled from './ProductList';
 
 type Props = {
   list: IProduct[];
+  viewMore?: boolean;
 };
 
-const ProductList: FC<Props> = ({ list }) => {
+const ProductList: FC<Props> = ({ list, viewMore }) => {
   return (
     <RootStyled>
       <h3 className="title">Sản phẩm</h3>
@@ -18,11 +19,13 @@ const ProductList: FC<Props> = ({ list }) => {
           <ProductItem key={item.id} {...item} />
         ))}
       </div>
-      <div className="view-more">
-        <Link href="/products">
-          <Button>Xem thêm</Button>
-        </Link>
-      </div>
+      {viewMore && (
+        <div className="view-more">
+          <Link href="/products">
+            <Button>Xem thêm</Button>
+          </Link>
+        </div>
+      )}
     </RootStyled>
   );
 };

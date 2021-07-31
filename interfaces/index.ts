@@ -11,6 +11,11 @@ export interface IImage {
   publicId: string;
 }
 
+export interface ILogin {
+  email: string;
+  password: string;
+}
+
 export interface IProduct {
   id: string;
   name: string;
@@ -26,11 +31,6 @@ export interface IProduct {
 export interface IProductUnit {
   id: string;
   name: string;
-}
-
-export interface ILogin {
-  email: string;
-  password: string;
 }
 
 export interface IUser {

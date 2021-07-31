@@ -2,6 +2,9 @@ import { ILogin } from '@interfaces/index';
 import httpRequest from '@services/httpRequest';
 
 const CommonApi = {
+  fetchProducts: () => {
+    return httpRequest.get('/products');
+  },
   fetchTrendingProducts: () => {
     return httpRequest.get('/products/trending');
   },

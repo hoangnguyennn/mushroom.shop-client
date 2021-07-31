@@ -13,7 +13,7 @@ const Home = () => {
     <RootStyled>
       <Banner />
       <Container>
-        <ProductList list={trendingProducts} />
+        <ProductList list={trendingProducts} viewMore />
       </Container>
     </RootStyled>
   );

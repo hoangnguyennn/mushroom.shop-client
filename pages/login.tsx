@@ -1,6 +1,6 @@
 import PageContentLayout from '@components/PageContent';
-import Login from '@features/Login';
 import MainLayout from '@layouts/MainLayout';
+import Login from '@features/Login';
 
 const LoginPage = () => {
   return (

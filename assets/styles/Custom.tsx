@@ -7,6 +7,10 @@ const Custom = createGlobalStyle`
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: sans-serif;
   color: #231f20;

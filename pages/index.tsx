@@ -1,8 +1,11 @@
-import { GetStaticProps } from 'next';
-import { fetchTrendingProducts } from '@redux/reducers/product.reducer';
-import storeWrapper from '@redux/store';
-import Home from '@features/Home';
+import { GetServerSideProps } from 'next';
+
 import MainLayout from '@layouts/MainLayout';
+import Home from '@features/Home';
+
+import IPageProps from '@interfaces/IPageProps';
+import storeWrapper from '@redux/store';
+import { fetchTrendingProducts } from '@redux/reducers/product.reducer';
 
 const HomePage = () => {
   return (
@@ -12,7 +15,7 @@ const HomePage = () => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps<IPageProps> = async () => {
   const store = storeWrapper.getStore();
   await store.dispatch(fetchTrendingProducts());
 
