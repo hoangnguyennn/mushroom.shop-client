@@ -9,6 +9,7 @@ export const ToolItem = styled.a`
   align-items: stretch;
   color: inherit;
   text-decoration: none;
+  cursor: pointer;
 
   .icon {
     width: 46px;
@@ -54,5 +55,41 @@ export const ToolItem = styled.a`
 
   &:not(:first-child) {
     margin-left: 16px;
+  }
+
+  &.dropdown {
+    .dropdown-menu {
+      z-index: 2;
+      display: none;
+      position: absolute;
+      top: 72px;
+      left: 0;
+      right: 0;
+      padding: 12px;
+      background-color: #fff;
+
+      .dropdown-item {
+        display: block;
+        padding: 6px 12px;
+        font-size: 14px;
+        border-radius: 8px;
+
+        &,
+        & a {
+          color: #231f20;
+          text-decoration: none;
+        }
+
+        &:hover {
+          background-color: #e2e6ea;
+        }
+      }
+    }
+
+    &:hover {
+      .dropdown-menu {
+        display: block;
+      }
+    }
   }
 `;

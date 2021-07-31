@@ -28,11 +28,22 @@ const authSlice = createSlice({
     },
     setUser: (state, action) => {
       state.user = action.payload;
+    },
+    clearUser: state => {
+      state.token = '';
+      state.user = {
+        id: '',
+        email: '',
+        fullName: '',
+        phone: '',
+        address: '',
+        userType: ''
+      };
     }
   }
 });
 
-const { setToken, setUser } = authSlice.actions;
+const { setToken, setUser, clearUser } = authSlice.actions;
 
 export const login = createAsyncThunk(
   'auth/login',
@@ -50,11 +61,23 @@ export const loginByToken = createAsyncThunk(
   'auth/loginByToken',
   async (_, { dispatch }) => {
     const token = localStorage.getItem('access-token');
-    token && dispatch(setToken(token));
+    if (!token) {
+      localStorage.removeItem('access-token');
+      return;
+    }
 
+    dispatch(setToken(token));
     return CommonApi.loginByToken().then(user => {
       dispatch(setUser(user));
     });
+  }
+);
+
+export const logout = createAsyncThunk(
+  'auth/logout',
+  async (_, { dispatch }) => {
+    localStorage.removeItem('access-token');
+    dispatch(clearUser());
   }
 );
 
@@ -64,5 +87,6 @@ const selector = <T>(combiner: (state: IAuthState) => T) => {
 };
 
 export const getToken = () => selector(state => state.token);
+export const getFullName = () => selector(state => state.user.fullName);
 
 export default authSlice.reducer;
