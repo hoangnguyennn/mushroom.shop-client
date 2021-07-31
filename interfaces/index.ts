@@ -27,3 +27,17 @@ export interface IProductUnit {
   id: string;
   name: string;
 }
+
+export interface ILogin {
+  email: string;
+  password: string;
+}
+
+export interface IUser {
+  id: string;
+  email: string;
+  fullName: string;
+  phone: string;
+  address: string;
+  userType: string;
+}

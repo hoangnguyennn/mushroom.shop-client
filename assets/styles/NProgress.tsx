@@ -5,7 +5,7 @@ const NProgress = createGlobalStyle`
   pointer-events: none;
 
   .bar {
-    background: var(--primary);
+    background: #4361ee;
 
     position: fixed;
     z-index: 1031;
@@ -22,7 +22,7 @@ const NProgress = createGlobalStyle`
     right: 0px;
     width: 100px;
     height: 100%;
-    box-shadow: 0 0 10px var(--primary), 0 0 5px var(--primary);
+    box-shadow: 0 0 10px #4361ee, 0 0 5px #4361ee;
     opacity: 1;
 
     transform: rotate(3deg) translate(0px, -4px);
@@ -42,8 +42,8 @@ const NProgress = createGlobalStyle`
     box-sizing: border-box;
 
     border: solid 2px transparent;
-    border-top-color: var(--primary);
-    border-left-color: var(--primary);
+    border-top-color: #4361ee;
+    border-left-color: #4361ee;
     border-radius: 50%;
 
     animation: nprogress-spinner 400ms linear infinite;

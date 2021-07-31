@@ -31,8 +31,8 @@ export const fetchTrendingProducts = createAsyncThunk(
   }
 );
 
-export const productState = (state: IRootState) => state.product;
-export const selector = <T>(combiner: (state: IProductState) => T) => {
+const productState = (state: IRootState) => state.product;
+const selector = <T>(combiner: (state: IProductState) => T) => {
   return createSelector(productState, combiner);
 };
 

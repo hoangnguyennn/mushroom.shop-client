@@ -9,6 +9,8 @@ const Custom = createGlobalStyle`
 
 body {
   font-family: sans-serif;
+  color: #231f20;
+  line-height: 1.5;
 }
 
 ul {
