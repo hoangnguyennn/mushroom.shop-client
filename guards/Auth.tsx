@@ -9,7 +9,11 @@ const Auth: FC = ({ children }) => {
   const token = useSelector(getToken());
 
   useEffect(() => {
-    !token && dispatch(loginByToken());
+    const tokenInLocalStorage = localStorage.getItem('access-token');
+
+    if (tokenInLocalStorage && !token) {
+      dispatch(loginByToken());
+    }
   }, [token]);
 
   return <>{children}</>;

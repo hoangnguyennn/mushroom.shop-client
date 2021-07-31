@@ -1,3 +1,7 @@
+export interface ICartItem extends IProduct {
+  qty: number;
+}
+
 export interface ICategory {
   id: string;
   name: string;
@@ -16,6 +20,10 @@ export interface ILogin {
   password: string;
 }
 
+export interface IObject {
+  [key: string]: any;
+}
+
 export interface IProduct {
   id: string;
   name: string;
@@ -23,9 +31,9 @@ export interface IProduct {
   description: string;
   status: string;
   longDescription: string;
-  unit?: IProductUnit;
-  images?: IImage[];
-  category?: ICategory;
+  unit: IProductUnit;
+  images: IImage[];
+  category: ICategory;
 }
 
 export interface IProductUnit {

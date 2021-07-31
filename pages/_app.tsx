@@ -13,6 +13,7 @@ Router.events.on('routeChangeError', () => NProgress.done());
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const store = storeWrapper.getStore(pageProps.initialReduxState);
+
   return (
     <Provider store={store}>
       <GlobalStyle />

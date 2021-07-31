@@ -8,7 +8,7 @@ import storeWrapper from '@redux/store';
 import { fetchProducts } from '@redux/reducers/product.reducer';
 import ProductList from '@features/ProductList';
 
-const ProductPage = () => {
+const ProductsPage = () => {
   return (
     <MainLayout>
       <PageContentLayout>
@@ -29,4 +29,4 @@ export const getServerSideProps: GetServerSideProps<IPageProps> = async () => {
   };
 };
 
-export default ProductPage;
+export default ProductsPage;

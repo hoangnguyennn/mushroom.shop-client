@@ -1,12 +1,14 @@
+import { useMemo } from 'react';
 import { configureStore } from '@reduxjs/toolkit';
 import { IRootState } from '@interfaces/IState';
 import reducers from './reducers';
 import { initialState as authInitialState } from './reducers/auth.reducer';
+import { initialState as cartInitialState } from './reducers/cart.reducer';
 import { initialState as productInitialState } from './reducers/product.reducer';
-import { useMemo } from 'react';
 
 const rootState: IRootState = {
   auth: authInitialState,
+  cart: cartInitialState,
   product: productInitialState
 };
 
@@ -24,7 +26,6 @@ const storeWrapper = (() => {
     getStore(preloadedState?: IRootState) {
       if (preloadedState) {
         store = useMemo(() => initStore(preloadedState), [preloadedState]);
-        return store;
       }
 
       return store;

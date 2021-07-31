@@ -8,6 +8,9 @@ const CommonApi = {
   fetchTrendingProducts: () => {
     return httpRequest.get('/products/trending');
   },
+  fetchProductById: (id: string) => {
+    return httpRequest.get(`/products/${id}`);
+  },
   login: (loginData: ILogin) => {
     return httpRequest.post('/auth/sign-in', loginData);
   },
