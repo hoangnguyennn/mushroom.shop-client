@@ -46,6 +46,18 @@ export const login = createAsyncThunk(
   }
 );
 
+export const loginByToken = createAsyncThunk(
+  'auth/loginByToken',
+  async (_, { dispatch }) => {
+    const token = localStorage.getItem('access-token');
+    token && dispatch(setToken(token));
+
+    return CommonApi.loginByToken().then(user => {
+      dispatch(setUser(user));
+    });
+  }
+);
+
 const authState = (state: IRootState) => state.auth;
 const selector = <T>(combiner: (state: IAuthState) => T) => {
   return createSelector(authState, combiner);

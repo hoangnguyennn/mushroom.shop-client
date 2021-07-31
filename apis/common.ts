@@ -7,6 +7,9 @@ const CommonApi = {
   },
   login: (loginData: ILogin) => {
     return httpRequest.post('/auth/sign-in', loginData);
+  },
+  loginByToken: () => {
+    return httpRequest.post('/auth/me');
   }
 };
 
