@@ -1,4 +1,10 @@
-import { ILogin, IOrder, IRegister } from '@interfaces/index';
+import {
+  ILogin,
+  IOrder,
+  IRegister,
+  IUserUpdateInfo,
+  IUserUpdatePassword
+} from '@interfaces/index';
 import httpRequest from '@services/httpRequest';
 
 const CommonApi = {
@@ -25,6 +31,9 @@ const CommonApi = {
   },
   register: (registerData: IRegister) => {
     return httpRequest.post('/auth/sign-up', registerData);
+  },
+  updateUser: (id: string, userData: IUserUpdateInfo | IUserUpdatePassword) => {
+    return httpRequest.patch(`/users/${id}`, userData);
   }
 };
 

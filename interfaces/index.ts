@@ -79,3 +79,17 @@ export interface IUser {
   address: string;
   userType: string;
 }
+
+export interface IUserUpdateInfo {
+  fullName: string;
+  phone: string;
+  address: string;
+}
+
+export interface IUserUpdatePassword {
+  password: string;
+}
+
+export interface IUserUpdatePasswordForm extends IUserUpdatePassword {
+  confirmPassword: string;
+}

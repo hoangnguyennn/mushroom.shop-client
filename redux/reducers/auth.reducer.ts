@@ -1,5 +1,10 @@
 import CommonApi from '@apis/common';
-import { ILogin, IRegister } from '@interfaces/index';
+import {
+  ILogin,
+  IRegister,
+  IUserUpdateInfo,
+  IUserUpdatePassword
+} from '@interfaces/index';
 import { IAuthState, IRootState } from '@interfaces/IState';
 import {
   createAsyncThunk,
@@ -88,6 +93,23 @@ export const register = createAsyncThunk(
   }
 );
 
+export const updateUser = createAsyncThunk<
+  void,
+  IUserUpdateInfo | IUserUpdatePassword,
+  { state: IRootState }
+>(
+  'auth/updateUser',
+  async (
+    userData: IUserUpdateInfo | IUserUpdatePassword,
+    { getState, dispatch }
+  ) => {
+    const userId = getUserId()(getState());
+    return CommonApi.updateUser(userId, userData).then(user => {
+      dispatch(setUser(user));
+    });
+  }
+);
+
 const authState = (state: IRootState) => state.auth;
 const selector = <T>(combiner: (state: IAuthState) => T) => {
   return createSelector(authState, combiner);
@@ -95,5 +117,7 @@ const selector = <T>(combiner: (state: IAuthState) => T) => {
 
 export const getToken = () => selector(state => state.token);
 export const getFullName = () => selector(state => state.user.fullName);
+export const getUserId = () => selector(state => state.user.id);
+export const getUser = () => selector(state => state.user);
 
 export default authSlice.reducer;
