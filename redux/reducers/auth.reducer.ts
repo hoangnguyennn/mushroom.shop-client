@@ -13,6 +13,7 @@ import {
 } from '@reduxjs/toolkit';
 
 export const initialState: IAuthState = {
+  isUserFetched: false,
   token: '',
   user: {
     id: '',
@@ -28,6 +29,9 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
+    setIsUserFetched: (state, action) => {
+      state.isUserFetched = action.payload;
+    },
     setToken: (state, action) => {
       state.token = action.payload;
     },
@@ -48,7 +52,8 @@ const authSlice = createSlice({
   }
 });
 
-const { setToken, setUser, clearUser } = authSlice.actions;
+const { setIsUserFetched, setToken, setUser, clearUser } = authSlice.actions;
+export { setIsUserFetched };
 
 export const login = createAsyncThunk(
   'auth/login',
@@ -119,5 +124,6 @@ export const getToken = () => selector(state => state.token);
 export const getFullName = () => selector(state => state.user.fullName);
 export const getUserId = () => selector(state => state.user.id);
 export const getUser = () => selector(state => state.user);
+export const getIsUserFetched = () => selector(state => state.isUserFetched);
 
 export default authSlice.reducer;

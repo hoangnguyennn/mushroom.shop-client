@@ -1,6 +1,7 @@
 import { ICartItem, IPaymentMethod, IProduct, IUser } from '.';
 
 export interface IAuthState {
+  isUserFetched: boolean;
   token: string;
   user: IUser;
 }
