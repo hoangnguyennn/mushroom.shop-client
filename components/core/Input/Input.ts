@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-export default styled.div`
+type Props = {
+  invalid?: boolean;
+};
+
+const InputStyled = styled.div<Props>`
   display: flex;
   position: relative;
 
@@ -9,7 +13,7 @@ export default styled.div`
     width: 100%;
     font-size: 15px;
     line-height: 1.5;
-    border: 1px solid #dae1e7;
+    border: 1px solid ${props => (props.invalid ? '#f72585' : '#dae1e7')};
     border-radius: 6px;
   }
 
@@ -25,3 +29,9 @@ export default styled.div`
     user-select: none;
   }
 `;
+
+InputStyled.defaultProps = {
+  invalid: false
+};
+
+export default InputStyled;

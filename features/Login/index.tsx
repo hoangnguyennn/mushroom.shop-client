@@ -1,6 +1,8 @@
-import { useFormik } from 'formik';
+import { FormikHelpers, useFormik } from 'formik';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 import { ILogin } from '@interfaces/index';
 import { useAppDispatch } from '@hooks/useAppDispatch';
@@ -10,8 +12,6 @@ import Button from '@components/core/Button';
 import FormGroup from '@components/core/FormGroup';
 import Input from '@components/core/Input';
 import RootStyled from './Login';
-import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -23,7 +23,10 @@ const Login = () => {
     password: ''
   };
 
-  const onSubmit = (values: ILogin) => {
+  const onSubmit = (
+    values: ILogin,
+    { setSubmitting }: FormikHelpers<ILogin>
+  ) => {
     dispatch(login(values))
       .unwrap()
       .then(() => {
@@ -31,6 +34,9 @@ const Login = () => {
       })
       .catch(err => {
         console.log(err);
+      })
+      .finally(() => {
+        setSubmitting(false);
       });
   };
 
@@ -75,7 +81,7 @@ const Login = () => {
       </FormGroup>
 
       <FormGroup>
-        <Button type="submit" inline={false}>
+        <Button type="submit" inline={false} disabled={formik.isSubmitting}>
           Đăng nhập
         </Button>
       </FormGroup>

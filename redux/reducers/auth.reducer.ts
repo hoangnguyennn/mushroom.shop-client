@@ -1,5 +1,5 @@
 import CommonApi from '@apis/common';
-import { ILogin } from '@interfaces/index';
+import { ILogin, IRegister } from '@interfaces/index';
 import { IAuthState, IRootState } from '@interfaces/IState';
 import {
   createAsyncThunk,
@@ -78,6 +78,13 @@ export const logout = createAsyncThunk(
   async (_, { dispatch }) => {
     localStorage.removeItem('access-token');
     dispatch(clearUser());
+  }
+);
+
+export const register = createAsyncThunk(
+  'auth/register',
+  async (registerData: IRegister) => {
+    return CommonApi.register(registerData);
   }
 );
 

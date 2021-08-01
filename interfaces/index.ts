@@ -41,6 +41,17 @@ export interface IProductUnit {
   name: string;
 }
 
+export interface IRegister {
+  email: string;
+  password: string;
+  fullName: string;
+  phone: string;
+}
+
+export interface IRegisterForm extends IRegister {
+  confirmPassword: string;
+}
+
 export interface IUser {
   id: string;
   email: string;
