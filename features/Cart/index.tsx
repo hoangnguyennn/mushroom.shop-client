@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 import Button from '@components/core/Button';
 import FormGroup from '@components/core/FormGroup';
@@ -8,9 +9,20 @@ import RootStyled from './Cart';
 
 import { getCartItems } from '@redux/reducers/cart.reducer';
 import { toCurrency } from '@utils/formatter';
+import {
+  fetchPaymentMethods,
+  getPaymentMethods
+} from '@redux/reducers/paymentMethod.reducer';
+import { useAppDispatch } from '@hooks/useAppDispatch';
 
 const Cart = () => {
   const cartItems = useSelector(getCartItems());
+  const paymentMethods = useSelector(getPaymentMethods());
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchPaymentMethods());
+  }, []);
 
   return (
     <RootStyled>
@@ -100,19 +112,14 @@ const Cart = () => {
         <div className="payment-methods">
           <h3 className="title">Phương thức thanh toán</h3>
 
-          <FormGroup className="payment-method">
-            <input type="radio" />
-            <div>
-              <h4>Thanh toán bằng tiền mặt</h4>
-            </div>
-          </FormGroup>
-
-          <FormGroup className="payment-method">
-            <input type="radio" />
-            <div>
-              <h4>Thanh toán bằng tiền mặt</h4>
-            </div>
-          </FormGroup>
+          {paymentMethods.map(item => (
+            <FormGroup as="label" className="payment-method" key={item.id}>
+              <input type="radio" name="paymentMethodId" />
+              <div>
+                <h4>{item.name}</h4>
+              </div>
+            </FormGroup>
+          ))}
         </div>
 
         <Button type="submit" inline={false}>

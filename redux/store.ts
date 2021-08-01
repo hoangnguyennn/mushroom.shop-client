@@ -4,11 +4,13 @@ import { IRootState } from '@interfaces/IState';
 import reducers from './reducers';
 import { initialState as authInitialState } from './reducers/auth.reducer';
 import { initialState as cartInitialState } from './reducers/cart.reducer';
+import { initialState as paymentMethodInitialState } from './reducers/paymentMethod.reducer';
 import { initialState as productInitialState } from './reducers/product.reducer';
 
 const rootState: IRootState = {
   auth: authInitialState,
   cart: cartInitialState,
+  paymentMethod: paymentMethodInitialState,
   product: productInitialState
 };
 

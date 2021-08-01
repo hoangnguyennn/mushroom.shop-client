@@ -38,6 +38,11 @@ export interface IOrderItem {
   qty: number;
 }
 
+export interface IPaymentMethod {
+  id: string;
+  name: string;
+}
+
 export interface IProduct {
   id: string;
   name: string;

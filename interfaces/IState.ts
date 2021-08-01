@@ -1,4 +1,4 @@
-import { ICartItem, IProduct, IUser } from '.';
+import { ICartItem, IPaymentMethod, IProduct, IUser } from '.';
 
 export interface IAuthState {
   token: string;
@@ -7,6 +7,10 @@ export interface IAuthState {
 
 export interface ICartState {
   cartItems: ICartItem[];
+}
+
+export interface IPaymentMethodState {
+  paymentMethods: IPaymentMethod[];
 }
 
 export interface IProductState {
@@ -18,5 +22,6 @@ export interface IProductState {
 export interface IRootState {
   auth: IAuthState;
   cart: ICartState;
+  paymentMethod: IPaymentMethodState;
   product: IProductState;
 }
