@@ -24,6 +24,20 @@ export interface IObject {
   [key: string]: any;
 }
 
+export interface IOrder {
+  deliveryEmail: string;
+  deliveryFullName: string;
+  deliveryPhone: string;
+  deliveryAddress: string;
+  paymentMethodId: string;
+  items: IOrderItem[];
+}
+
+export interface IOrderItem {
+  productId: string;
+  qty: number;
+}
+
 export interface IProduct {
   id: string;
   name: string;

@@ -1,4 +1,4 @@
-import { ILogin, IRegister } from '@interfaces/index';
+import { ILogin, IOrder, IRegister } from '@interfaces/index';
 import httpRequest from '@services/httpRequest';
 
 const CommonApi = {
@@ -19,6 +19,9 @@ const CommonApi = {
   },
   register: (registerData: IRegister) => {
     return httpRequest.post('/auth/sign-up', registerData);
+  },
+  createOrder: (orderData: IOrder) => {
+    return httpRequest.post('/orders', orderData);
   }
 };
 

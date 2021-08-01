@@ -54,4 +54,6 @@ export const getCartLength = () =>
     state.cartItems.reduce((result, item) => result + item.qty, 0)
   );
 
+export const getCartItems = () => selector(state => state.cartItems);
+
 export default cartSlice.reducer;
